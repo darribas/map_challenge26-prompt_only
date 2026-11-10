@@ -4,7 +4,7 @@
 
 The UK's most different and most alike neighbouring small areas, seen through [AlphaEarth](https://deepmind.google/discover/blog/alphaearth-foundations-helps-map-our-planet-in-unprecedented-detail/) satellite embeddings, presented as three Polaroid cards. Everything here (the analysis, the maps, the haiku and the website) was made by prompting [Claude Code](https://claude.com/claude-code). The website tells the story and includes the full conversation.
 
-**Website: <https://darribas.github.io/map_challenge26-prompt_only/>**
+**Website: <https://darribas.org/map_challenge26-prompt_only/>**
 
 ![The three submission cards](images/submission/1_most_different.jpg)
 

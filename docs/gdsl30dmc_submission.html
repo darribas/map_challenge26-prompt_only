@@ -552,7 +552,7 @@ Everything here (the data processing, the maps, even the haiku) came from prompt
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/darribas\.github\.io\/map_challenge26-prompt_only\/");
+        var filterRegex = new RegExp("https:\/\/darribas\.org\/map_challenge26-prompt_only\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

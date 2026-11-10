@@ -24,7 +24,7 @@ execute:
 website:
   title: "Neighbours, near and far"
   description: "The UK's most different and most alike neighbouring places, seen through AlphaEarth embeddings. #30DayMapChallenge, day 10: prompting only."
-  site-url: "https://darribas.github.io/map_challenge26-prompt_only/"
+  site-url: "https://darribas.org/map_challenge26-prompt_only/"
   repo-url: "https://github.com/darribas/map_challenge26-prompt_only"
   page-navigation: true
   navbar:
