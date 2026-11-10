@@ -9156,7 +9156,7 @@ To change anything later, run `quarto render`, which needs only Quarto and Pillo
 
 
 ```{=html}
-<details class="steps"><summary><b>2 steps</b> · Check local git state and the GitHub repo · Re-export conversation and inspect site config</summary><details class="tool"><summary><span class="tool-name">Bash</span> Check local git state and the GitHub repo</summary><pre class="tool-in">git status 2&gt;&amp;1 | head -5; gh auth status 2&gt;&amp;1 | head -5; gh repo view darribas/map_challenge26-prompt_only --json name,visibility,defaultBranchRef,isEmpty,diskUsage 2&gt;&amp;1; gh api repos/darribas/map_challenge26-prompt_only/contents 2&gt;&amp;1 | head -40</pre><pre class="tool-out">fatal: not a git repository (or any parent up to mount point ~)
+<details class="steps"><summary><b>3 steps</b> · Check local git state and the GitHub repo · Re-export conversation and inspect site config · …</summary><details class="tool"><summary><span class="tool-name">Bash</span> Check local git state and the GitHub repo</summary><pre class="tool-in">git status 2&gt;&amp;1 | head -5; gh auth status 2&gt;&amp;1 | head -5; gh repo view darribas/map_challenge26-prompt_only --json name,visibility,defaultBranchRef,isEmpty,diskUsage 2&gt;&amp;1; gh api repos/darribas/map_challenge26-prompt_only/contents 2&gt;&amp;1 | head -40</pre><pre class="tool-out">fatal: not a git repository (or any parent up to mount point ~)
 Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
 github.com
   ✓ Logged in to github.com account darribas (~/.config/gh/hosts.yml)
@@ -9164,5 +9164,290 @@ github.com
   - Git operations protocol: https
   - Token: gho_************************************
 {&quot;defaultBranchRef&quot;:{&quot;name&quot;:&quot;&quot;},&quot;diskUsage&quot;:0,&quot;isEmpty&quot;:true,&quot;name&quot;:&quot;map_challenge26-prompt_only&quot;,&quot;visibility&quot;:&quot;PUBLIC&quot;}
-{&quot;message&quot;:&quot;This repository is empty.&quot;,&quot;documentation_url&quot;:&quot;https://docs.github.com/v3/repos/contents/#get-contents&quot;,&quot;status&quot;:&quot;404&quot;}gh: This repository is empty. (HTTP 404)</pre></details><details class="tool"><summary><span class="tool-name">Bash</span> Re-export conversation and inspect site config</summary><pre class="tool-in">python scripts/export_conversation.py ~/.claude/projects/-home-jovyan-work/63c88aa3-98ca-4f27-93e3-d7a0c2754006.jsonl &amp;&amp; grep -n &quot;site-url\|^  title\|^website&quot; _quarto.yml | head</pre></details></details>
+{&quot;message&quot;:&quot;This repository is empty.&quot;,&quot;documentation_url&quot;:&quot;https://docs.github.com/v3/repos/contents/#get-contents&quot;,&quot;status&quot;:&quot;404&quot;}gh: This repository is empty. (HTTP 404)</pre></details><details class="tool"><summary><span class="tool-name">Bash</span> Re-export conversation and inspect site config</summary><pre class="tool-in">python scripts/export_conversation.py ~/.claude/projects/-home-jovyan-work/63c88aa3-98ca-4f27-93e3-d7a0c2754006.jsonl &amp;&amp; grep -n &quot;site-url\|^  title\|^website&quot; _quarto.yml | head</pre><pre class="tool-out">556 events {&#x27;prompt&#x27;: 64, &#x27;reply&#x27;: 144, &#x27;tool&#x27;: 344, &#x27;compact&#x27;: 2}, 97 images -&gt; conversation
+24:website:
+25:  title: &quot;Neighbours, near and far&quot;
+27:  site-url: &quot;&quot;</pre></details><details class="tool"><summary><span class="tool-name">Bash</span> Set site URL, render site, scan for email leaks</summary><pre class="tool-in">sed -i &#x27;s|  site-url: &quot;&quot;|  site-url: &quot;https://darribas.github.io/map_challenge26-prompt_only/&quot;\n  repo-url: &quot;https://github.com/darribas/map_challenge26-prompt_only&quot;|&#x27; _quarto.yml &amp;&amp; sed -n 20,35p _quarto.yml &amp;&amp; quarto render 2&gt;&amp;1 | tail -5 &amp;&amp; grep -rl &quot;daniel.arribas\|@gmail&quot; --include=*.json --include=*.html --include=*.md --include=*.qmd --include=*.ipynb --include=*.py . 2&gt;/dev/null | grep -v &quot;^./data&quot; | head</pre><pre class="tool-out"># Notebooks are shown with the outputs saved in them; nothing is executed when the site is built, so no data is needed.
+execute:
+  enabled: false
+
+website:
+  title: &quot;Neighbours, near and far&quot;
+  description: &quot;The UK&#x27;s most different and most alike neighbouring places, seen through AlphaEarth embeddings. #30DayMapChallenge, day 10: prompting only.&quot;
+  site-url: &quot;https://darribas.github.io/map_challenge26-prompt_only/&quot;
+  repo-url: &quot;https://github.com/darribas/map_challenge26-prompt_only&quot;
+  page-navigation: true
+  navbar:
+    left:
+      - href: index.qmd
+        text: The submission
+      - href: backstory.qmd
+        text: Backstory
+
+[1m[34mRunning script &#x27;scripts/post_render.py&#x27;[39m[22m
+
+Output created: docs/index.html</pre></details></details>
+```
+
+
+::: {.reply}
+No email turned up anywhere. Before pushing to a public repo, I'll scan for anything secret-looking and add a README link to the live site.
+:::
+
+
+````{=html}
+<details class="steps"><summary><b>2 steps</b> · Scan for secrets before publishing · See where the username appears</summary><details class="tool"><summary><span class="tool-name">Bash</span> Scan for secrets before publishing</summary><pre class="tool-in">grep -rnoE &quot;gh[opsu]_[A-Za-z0-9]{20,}|sk-[A-Za-z0-9]{20,}|AKIA[0-9A-Z]{16}|token=[A-Za-z0-9]{16,}&quot; --exclude-dir=data --exclude-dir=.quarto . | head; echo &quot;---&quot;; grep -c &quot;jovyan&quot; conversation/conversation.json</pre><pre class="tool-out">---
+216</pre></details><details class="tool"><summary><span class="tool-name">Bash</span> See where the username appears</summary><pre class="tool-in">grep -o &quot;.\{40\}jovyan.\{30\}&quot; conversation/conversation.json | sort | uniq -c | sort -rn | head -8</pre><pre class="tool-out">7 onversation.py ~/.claude/projects/-home-jovyan-work/63c88aa3-98ca-4f27-93e3-
+      2 transcript at: ~/.claude/projects/-home-jovyan-work/63c88aa3-98ca-4f27-93e3-
+      2   &quot;input&quot;: &quot;cd ~/.claude/projects/-home-jovyan-work &amp;&amp; python - &lt;&lt;&#x27;EOF&#x27;\nimp
+      1 urce replaced\ntotal 6976\ndrwxr-xr-x 2 jovyan users    4096 Nov 10 00:06 .\
+      1 ular\ngot Bold\ntotal 128\ndrwxr-xr-x 2 jovyan users  4096 Nov  4 21:47 .\nd
+      1 session JSONL `~/.claude/projects/-home-jovyan-work/63c88aa3-98ca-4f27-93e3-
+      1 s    4096 Nov 10 00:06 ..\n-rw-r--r-- 1 jovyan users 2301434 Nov 10 00:09 1_
+      1 result&quot;: &quot;```\ntotal 2660\ndrwxr-xr-x 2 jovyan users    4096 Nov  4 21:50 .\</pre></details></details>
+````
+
+
+::: {.reply}
+These are just the generic Jupyter container username, so it's harmless. Next I'll add the live URL to the README, then commit and push.
+:::
+
+
+```{=html}
+<details class="steps"><summary><b>1 step</b> · Add site link, init repo and stage files</summary><details class="tool"><summary><span class="tool-name">Bash</span> Add site link, init repo and stage files</summary><pre class="tool-in">python - &lt;&lt;&#x27;EOF&#x27;
+from pathlib import Path
+p = Path(&quot;README.md&quot;); t = p.read_text()
+t = t.replace(&quot;The website tells the story and includes the full conversation.\n&quot;,
+ &quot;The website tells the story and includes the full conversation.\n\n**Website: &lt;https://darribas.github.io/map_challenge26-prompt_only/&gt;**\n&quot;, 1)
+p.write_text(t)
+EOF
+git init -q -b main &amp;&amp; git add -A &amp;&amp; git status --short | awk &#x27;{print $2}&#x27; | cut -d/ -f1 | sort | uniq -c &amp;&amp; du -sh .git</pre><pre class="tool-out">1 .gitignore
+      1 LOG.md
+      1 README.md
+      1 SPEC.md
+     67 _generated
+      1 _quarto.yml
+      1 _variables.yml
+      1 backstory.qmd
+     98 conversation
+    223 docs
+      3 figures
+      5 fonts
+      1 gdsl30dmc.ipynb
+      1 gdsl30dmc_clusters.ipynb
+      1 gdsl30dmc_submission.ipynb
+      1 gdsl30dmc_tools.py
+     71 images
+      1 index.qmd
+      1 log.qmd
+      1 notebooks.qmd
+      1 prompts.qmd
+      1 requirements.txt
+      3 scripts
+      1 site
+      1 transcript.qmd
+68M	.git</pre></details></details>
+```
+
+
+::: {.reply}
+No `data/` is included. Committing and pushing now.
+:::
+
+
+```{=html}
+<details class="steps"><summary><b>2 steps</b> · Commit and push to GitHub · Push using gh as a one-off credential helper</summary><details class="tool"><summary><span class="tool-name">Bash</span> Commit and push to GitHub <span class="tool-error">error</span></summary><pre class="tool-in">git -c user.name=&quot;Dani Arribas-Bel&quot; -c user.email=&quot;[email redacted]&quot; commit -q -m &quot;#30DayMapChallenge day 10: neighbours, near and far
+
+Analysis notebooks, submission cards and the Quarto website (built in docs/).
+
+Co-Authored-By: Claude Opus 5.5 &lt;[email redacted]&gt;
+Claude-Session: https://claude.ai/code/session_016RbtyNr4jeuApnt4D9LcCA&quot; &amp;&amp; git remote add origin https://github.com/darribas/map_challenge26-prompt_only.git &amp;&amp; gh auth setup-git &amp;&amp; git push -u origin main 2&gt;&amp;1 | tail -3</pre><pre class="tool-out">Exit code 1
+failed to set up git credential helper: failed to run git: error: could not write config file ~/.gitconfig: Device or resource busy</pre></details><details class="tool"><summary><span class="tool-name">Bash</span> Push using gh as a one-off credential helper</summary><pre class="tool-in">git log --oneline | head -2 &amp;&amp; git -c credential.helper= -c &#x27;credential.helper=!gh auth git-credential&#x27; push -u origin main 2&gt;&amp;1 | tail -3</pre><pre class="tool-out">033afcd #30DayMapChallenge day 10: neighbours, near and far
+To https://github.com/darribas/map_challenge26-prompt_only.git
+ * [new branch]      main -&gt; main
+branch &#x27;main&#x27; set up to track &#x27;origin/main&#x27;.</pre></details></details>
+```
+
+
+::: {.reply}
+Pushed. I'll also turn on Pages (branch `main`, folder `/docs`) so the site goes live.
+:::
+
+
+```{=html}
+<details class="steps"><summary><b>1 step</b> · Enable GitHub Pages from main /docs</summary><details class="tool"><summary><span class="tool-name">Bash</span> Enable GitHub Pages from main /docs</summary><pre class="tool-in">gh api -X POST repos/darribas/map_challenge26-prompt_only/pages -f &quot;source[branch]=main&quot; -f &quot;source[path]=/docs&quot; --jq &#x27;.html_url,.status&#x27; 2&gt;&amp;1</pre><pre class="tool-out">http://darribas.org/map_challenge26-prompt_only/</pre></details></details>
+```
+
+
+::: {.reply}
+Your account has a custom domain, so the site will live at `darribas.org/map_challenge26-prompt_only/`. I'll fix the URL in the config and README, and keep an eye on the Pages build.
+:::
+
+
+```{=html}
+<details class="steps"><summary><b>3 steps</b> · Update site URL, re-render, commit, push · Verify the push and the render · …</summary><details class="tool"><summary><span class="tool-name">Bash</span> Update site URL, re-render, commit, push</summary><pre class="tool-in">sed -i &#x27;s|https://darribas.github.io/map_challenge26-prompt_only/|https://darribas.org/map_challenge26-prompt_only/|&#x27; _quarto.yml README.md &amp;&amp; grep -rn &quot;darribas.org&quot; _quarto.yml README.md &amp;&amp; quarto render 2&gt;&amp;1 | tail -1 &amp;&amp; git add -A &amp;&amp; git -c user.name=&quot;Dani Arribas-Bel&quot; -c user.email=&quot;[email redacted]&quot; commit -q -m &quot;Point site-url at darribas.org
+
+Co-Authored-By: Claude Opus 5.5 &lt;[email redacted]&gt;
+Claude-Session: https://claude.ai/code/session_016RbtyNr4jeuApnt4D9LcCA&quot; &amp;&amp; git -c credential.helper= -c &#x27;credential.helper=!gh auth git-credential&#x27; push -q 2&gt;&amp;1 | tail -2; git status --short | head</pre><pre class="tool-out">_quarto.yml:27:  site-url: &quot;https://darribas.org/map_challenge26-prompt_only/&quot;
+README.md:7:**Website: &lt;https://darribas.org/map_challenge26-prompt_only/&gt;**</pre></details><details class="tool"><summary><span class="tool-name">Bash</span> Verify the push and the render</summary><pre class="tool-in">git log --oneline origin/main | head -3; ls docs/index.html &amp;&amp; quarto render 2&gt;&amp;1 | grep -i &quot;output created\|error&quot; | tail -2</pre><pre class="tool-out">96a581e Point site-url at darribas.org
+033afcd #30DayMapChallenge day 10: neighbours, near and far
+docs/index.html
+Output created: docs/index.html</pre></details><details class="tool"><summary><span class="tool-name">Bash</span> Wait for the Pages build to finish</summary><pre class="tool-in">git status --short | head -3; for i in $(seq 1 20); do s=$(gh api repos/darribas/map_challenge26-prompt_only/pages/builds/latest --jq .status 2&gt;/dev/null); echo &quot;$s&quot;; [ &quot;$s&quot; = built ] || [ &quot;$s&quot; = errored ] &amp;&amp; break; sleep 15; done</pre><pre class="tool-out">building
+building
+building
+building
+building
+building
+building
+building
+building
+building
+building
+building
+building
+building
+building
+building
+building
+building
+building
+building</pre></details></details>
+```
+
+
+```{=html}
+<div class="note prompt" id="p-65"><div class="note-meta"><a href="#p-65">#65</a> · Tue 10 Nov, 10:00 · typed while Claude was working</div><div class="note-text">one final ask: combine the three images of the final submission in a single canvas of relatively high resolution that I can use to post on LinkedIn and other networks. Include the link to the site in the canvas. Then check in the work and update the log</div></div>
+```
+
+
+::: {.reply}
+The Pages build is still going (it's a large first deploy). Meanwhile, I'll make the combined image.
+:::
+
+
+```{=html}
+<details class="steps"><summary><b>4 steps</b> · Check card sizes and available fonts · Write scripts/make_social.py · …</summary><details class="tool"><summary><span class="tool-name">Bash</span> Check card sizes and available fonts</summary><pre class="tool-in">python -c &quot;
+from PIL import Image; import glob
+for f in sorted(glob.glob(&#x27;figures/submission/*.png&#x27;)): print(f, Image.open(f).size)
+&quot;; ls fonts/</pre><pre class="tool-out">figures/submission/1_most_different.png (1600, 2030)
+figures/submission/2_most_similar.png (1600, 2030)
+figures/submission/3_most_similar_urban.png (1600, 2030)
+CourierPrime-Regular.ttf
+Figtree-Bold.ttf
+Figtree-Regular.ttf
+README.md
+SpecialElite-Regular.ttf</pre></details><details class="tool"><summary><span class="tool-name">Write</span> Write scripts/make_social.py</summary><pre class="tool-in">&quot;&quot;&quot;Combine the three submission cards into one image for social media, with the site&#x27;s address on it.
+
+    python scripts/make_social.py
+
+Reads figures/submission/{1,2,3}_*.png and writes figures/submission/social.png (3780 x 2000 px), laid out like the
+site: prints slightly tilted on a light table, title above, link below.
+&quot;&quot;&quot;
+from pathlib import Path
+
+from PIL import Image, ImageDraw, ImageFilter, ImageFont
+
+ROOT = Path(__file__).resolve().parents[1]
+CARDS = sorted((ROOT / &quot;figures/submission&quot;).glob(&quot;[123]_*.png&quot;))
+OUT = ROOT / &quot;figures/submission/social.png&quot;
+URL = &quot;darribas.org/map_challenge26-prompt_only&quot;
+
+TABLE, INK, GREY = &quot;#F1EFEA&quot;, &quot;#2B2B2B&quot;, &quot;#6E6E6E&quot;
+W, H = 3780, 2000
+CARD_W, GAP, TOP = 1100, 135, 330
+TILTS = (-1.6, 0.8, -0.6)
+
+
+def font(name, size):
+    return ImageFont.truetype(str(ROOT / &quot;fonts&quot; / name), size)
+
+
+def centred(draw, y, text, fnt, fill):
+    w = draw.textlength(text, font=fnt)
+    draw.text(((W - w) / 2, y), text, font=fnt, fill=fill)
+
+
+canvas = Image.new(&quot;RGB&quot;, (W, H), TABLE)
+draw = ImageDraw.Draw(canvas)
+centred(draw, 95, &quot;Neighbours, near and far&quot;, font(&quot;Figtree-Bold.ttf&quot;, 120), INK)
+centred(draw, 240, &quot;#30DayMapChallenge · Day 10 · Prompting only&quot;, font(&quot;Figtree-Regular.ttf&quot;, 54), GREY)
+
+for i, (path, tilt) in enumerate(zip(CARDS, TILTS)):
+    card = Image.open(path).convert(&quot;RGBA&quot;)
+    card = card.resize((CARD_W, round(card.height * CARD_W / card.width)), Image.LANCZOS)
+    # a soft shadow under each print, as on the site
+[… truncated]</pre><pre class="tool-out">File created successfully at: scripts/make_social.py (file state is current in your context — no need to Read it back)</pre></details><details class="tool"><summary><span class="tool-name">Bash</span> Build the social media canvas</summary><pre class="tool-in">python scripts/make_social.py &amp;&amp; ls -la figures/submission/social.png</pre><pre class="tool-out">figures/submission/social.png (3780, 2000)
+-rw-r--r-- 1 jovyan users 4409876 Nov 10 10:05 figures/submission/social.png</pre></details><details class="tool"><summary><span class="tool-name">Read</span> Read figures/submission/social.png</summary><pre class="tool-in"></pre></details></details><figure class="seen"><img src="conversation/img/098.jpg" loading="lazy" alt="Image viewed by Claude"><figcaption>Claude looked at <code>social.png</code></figcaption></figure>
+```
+
+
+::: {.reply}
+The canvas looks right. Next: the log entry, a README mention and a download link on the site, then commit.
+:::
+
+
+```{=html}
+<details class="steps"><summary><b>3 steps</b> · Look at the end of the log · Log entry, README and site link for the social image · …</summary><details class="tool"><summary><span class="tool-name">Bash</span> Look at the end of the log</summary><pre class="tool-in">tail -30 LOG.md</pre><pre class="tool-out">(`haiku_font=` to switch). Courier Prime looked more &quot;office&quot; and crowded the subtitle, so we kept Special Elite. The charts remain
+available as options.
+
+**New set** (the user&#x27;s idea): keep the most different pair and contrast it with the most similar ones.
+- Most different: `E01030745`/`E01030710`, Staines Reservoirs vs Stanwell housing (0.538, #1 of 136,233).
+- Most similar: `N20000689`/`N20000681`, farmland in County Armagh (0.0004, #1 most similar). It is the minimum with or without
+  an area filter.
+- Most similar urban: smallest distance among pairs with both areas 0.05–1 km² (small areas = urban; the lower bound drops noisy
+  tiny areas): `E01003685`/`E01003730`, terraced streets in Ilford (0.0006, #5 most similar overall).
+
+Haiku (5-7-5): &quot;Still black reservoir — / the next street hangs out washing. / Nothing more apart.&quot; · &quot;Green field, hedge, green field. /
+A map line says they are two; / the land knows just one.&quot; · &quot;Same bay window, same / chimney pots, same Tuesday bins. / Two codes,
+one long street.&quot; Also drafted for Nene Washes and Hackney Marshes, which are no longer used.
+
+**Place names**, checked by reverse-geocoding each area&#x27;s centre with OpenStreetMap Nominatim: Staines Reservoirs lies inside
+`E01030745` (King George VI Reservoir is 426 m away, not in it) and `E01030710` is Stanwell, Spelthorne, Surrey; the Armagh pair is
+between Richhill and Hamiltonsbawn, County Armagh; the Ilford pair is Loxford/Seven Kings, LB Redbridge, IG1.
+
+**`gdsl30dmc_submission.ipynb`**, a new standalone notebook that runs start to end (~2 min): load areas → fuzzy contiguity → drop
+12 isolates → pair distances computed from scratch (`cache=None`) → pick the three pairs by rule → captions (guarded by `expect`
+codes, so a changed pick stops the run) → cards at 200 dpi in `figures/submission/` (`1_most_different`, `2_most_similar`,
+`3_most_similar_urban`). The larger area of each pair is drawn in orange.
+
+**Cleanup:** removed `figures/final/` (Staines, Nene Washes, Hackney Marshes) and the &quot;Final cards&quot; section of the clusters
+notebook, which now ends with a pointer to the submission notebook.
+
+**Post text:** the LinkedIn text for the three cards (brief, plain, no buzzwords) is the last section of
+`gdsl30dmc_submission.ipynb` (&quot;Post text&quot;), kept in a plain-text block so the hashtags don&#x27;t render as headings. It covers: the AlphaEarth
+embeddings via Imago, 46,832 areas and 136,233 neighbouring pairs, the three pairs, and the point that the boundaries we use to co
+[… truncated]</pre></details><details class="tool"><summary><span class="tool-name">Bash</span> Log entry, README and site link for the social image</summary><pre class="tool-in">cat &gt;&gt; LOG.md &lt;&lt;&#x27;EOF&#x27;
+
+## 2026-11-10 · Website, repository and social image
+
+**Website:** a Quarto site with a Polaroid theme, built into `docs/` and served by GitHub Pages at
+&lt;https://darribas.org/map_challenge26-prompt_only/&gt; (repo `darribas/map_challenge26-prompt_only`, Pages from `main` `/docs`). Pages:
+the submission first (cards, how to read them, post text, how it was made), then a backstory in 11 chapters, every prompt, the full
+transcript, the notebooks and this log. The conversation is threaded through: prompts appear as typed notes in the backstory, each linked
+to its place in the transcript, and the home page counts come from it. `scripts/export_conversation.py` turns the Claude Code session file
+into `conversation/` (thinking, system reminders and email left out, paths shortened); `scripts/build_site.py` runs before every render
+and builds web images, transcript and prompt pages. The site builds without the data; `data/` and full-size exploration figures are
+git-ignored.
+
+**Social image:** `scripts/make_social.py` combines the three cards into `figures/submission/social.png` (3780 × 2000 px): title,
+the cards slightly tilted on the site&#x27;s table colour, and the site address underneath, for LinkedIn and other networks.
+EOF
+python - &lt;&lt;&#x27;EOF&#x27;
+from pathlib import Path
+p = Path(&quot;README.md&quot;); t = p.read_text()
+t = t.replace(&quot;| `figures/submission/` | The three final cards at full resolution (200 dpi) |&quot;,
+ &quot;| `figures/submission/` | The three final cards at full resolution (200 dpi), and `social.png`, the three on one canvas for posting (`python scripts/make_social.py`) |&quot;)
+p.write_text(t)
+p = Path(&quot;index.qmd&quot;); t = p.read_text()
+t = t.replace(&quot;#30DayMapChallenge #GeographicDataScience\n:::\n&quot;,
+ &quot;#30DayMapChallenge #GeographicDataScience\n:::\n\nThe three cards on one canvas, for sharing: [download](figures/submission/social.png) (3780 × 2000 px).\n&quot;)
+p.write_text(t)
+EOF
+grep -n &quot;social&quot; README.md index.qmd; grep -n &quot;resources&quot; -A4 _quarto.yml</pre><pre class="tool-out">index.qmd:51:The three cards on one canvas, for sharing: [download](figures/submission/social.png) (3780 × 2000 px).
+README.md:26:| `figures/submission/` | The three final cards at full resolution (200 dpi), and `social.png`, the three on one canvas for posting (`python scripts/make_social.py`) |
+16:  resources:                # files referenced from raw HTML, which Quarto can&#x27;t discover on its own
+17-    - images/
+18-    - conversation/img/
+19-
+20-# Notebooks are shown with the outputs saved in them; nothing is executed when the site is built, so no data is needed.</pre></details><details class="tool"><summary><span class="tool-name">Bash</span> Refresh transcript, render, check social image is published</summary><pre class="tool-in">python scripts/export_conversation.py ~/.claude/projects/-home-jovyan-work/63c88aa3-98ca-4f27-93e3-d7a0c2754006.jsonl &amp;&amp; quarto render 2&gt;&amp;1 | grep -iE &quot;warn|error|output created&quot; | tail -3; ls -la docs/figures/submission/ 2&gt;&amp;1; ls images/submission/</pre></details></details>
 ```

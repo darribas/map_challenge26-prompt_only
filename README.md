@@ -23,7 +23,7 @@ The UK's most different and most alike neighbouring small areas, seen through [A
 | `conversation/` | The Claude Code conversation, exported (`conversation.json` + the images in it) |
 | `scripts/` | Site helpers (see below) |
 | `images/` | Web-sized copies of the figures, used by the site |
-| `figures/submission/` | The three final cards at full resolution (200 dpi) |
+| `figures/submission/` | The three final cards at full resolution (200 dpi), and `social.png`, the three on one canvas for posting (`python scripts/make_social.py`) |
 | `fonts/` | Fonts for the cards (see `fonts/README.md` for licences) |
 | `data/` | **Not included.** See below |
 

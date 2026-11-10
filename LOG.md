@@ -262,3 +262,17 @@ notebook, which now ends with a pointer to the submission notebook.
 `gdsl30dmc_submission.ipynb` ("Post text"), kept in a plain-text block so the hashtags don't render as headings. It covers: the AlphaEarth
 embeddings via Imago, 46,832 areas and 136,233 neighbouring pairs, the three pairs, and the point that the boundaries we use to count people
 often split places the satellites see as one. It also says everything was made by prompting Claude Code (day 10 theme: prompting only).
+
+## 2026-11-10 · Website, repository and social image
+
+**Website:** a Quarto site with a Polaroid theme, built into `docs/` and served by GitHub Pages at
+<https://darribas.org/map_challenge26-prompt_only/> (repo `darribas/map_challenge26-prompt_only`, Pages from `main` `/docs`). Pages:
+the submission first (cards, how to read them, post text, how it was made), then a backstory in 11 chapters, every prompt, the full
+transcript, the notebooks and this log. The conversation is threaded through: prompts appear as typed notes in the backstory, each linked
+to its place in the transcript, and the home page counts come from it. `scripts/export_conversation.py` turns the Claude Code session file
+into `conversation/` (thinking, system reminders and email left out, paths shortened); `scripts/build_site.py` runs before every render
+and builds web images, transcript and prompt pages. The site builds without the data; `data/` and full-size exploration figures are
+git-ignored.
+
+**Social image:** `scripts/make_social.py` combines the three cards into `figures/submission/social.png` (3780 × 2000 px): title,
+the cards slightly tilted on the site's table colour, and the site address underneath, for LinkedIn and other networks.

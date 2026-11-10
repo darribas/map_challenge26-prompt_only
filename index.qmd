@@ -48,6 +48,8 @@ Everything here (the data processing, the maps, even the haiku) came from prompt
 #30DayMapChallenge #GeographicDataScience
 :::
 
+The three cards on one canvas, for sharing: [download](figures/submission/social.png) (3780 × 2000 px).
+
 ## How it was made
 
 Day 10's rule was *prompting only*: "make AI work for its money and produce something from start to finish in a chat window or on the command line". Everything on this site was made in one conversation with [Claude Code](https://claude.com/claude-code), from reading the data to the haiku and this website.
