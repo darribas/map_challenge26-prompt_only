@@ -1,0 +1,13 @@
+# Python 3.12. Versions are the ones this project was built with; nearby versions should work.
+geopandas==1.2.0
+libpysal==4.14.1      # the new Graph API (libpysal.graph) is needed
+shapely==2.2.0
+pyarrow==23.0.1       # parquet caches
+contextily==1.7.1     # Esri satellite tiles for the cards (needs internet)
+scikit-learn==1.9.1
+joblib==1.6.0
+matplotlib==3.11.2
+pandas==2.2.3
+numpy==2.4.6
+pillow==12.3.0        # also all that's needed to build the website
+jupyterlab

@@ -1,0 +1,22 @@
+---
+title: "Notebooks"
+subtitle: "The analysis, as it was run"
+---
+
+All the analysis lives in three Jupyter notebooks and one shared Python module. Claude wrote and ran them, cell by cell, through the [`nb`](https://github.com/jupyter-ai-contrib/nb-cli) command-line tool ({{< var n_nb >}} `nb` commands in the [transcript](transcript.qmd)). They are shown here with the outputs saved when they were last run; the site doesn't re-run them.
+
+[1 · Neighbours and distances](gdsl30dmc.ipynb) (`gdsl30dmc.ipynb`)
+: Reads the 2024 areas and embeddings, builds the neighbour graph (fuzzy contiguity, fixing the England–Scotland border), drops the 12 islands, computes the cosine distance for every neighbouring pair in parallel, scores each area against its neighbourhood (`mean_dist`, `lag_dist`), and makes the first Polaroid cards of the most different areas and pairs.
+
+[2 · Clusters and entities](gdsl30dmc_clusters.ipynb) (`gdsl30dmc_clusters.ipynb`)
+: Clusters the embeddings with k-means at k=20 and k=100, labels them with contact sheets, then searches for contrasts by type: business cores, reservoirs, industrial estates, golf courses, woodland, harbours. Also where the histogram and embedding band charts were developed, and where the west London housing puzzle is written up.
+
+[3 · The submission, end to end](gdsl30dmc_submission.ipynb) (`gdsl30dmc_submission.ipynb`)
+: The short, standalone pipeline behind the three cards: data → neighbours → distances → three pairs picked by rule → captions and haiku → cards. Start here if you want to reproduce the submission.
+
+`gdsl30dmc_tools.py`
+: The shared module: data loading, contiguity, distance caches, and the Polaroid card template (`polaroid`, `pair_card`, `area_card`) with its options (histogram, embedding band chart, haiku).
+
+## Running them yourself
+
+The data isn't part of this repository. To re-run the notebooks, download the 2024 GeoPackage from [Imago's Google Satellite Embedding for small areas](https://data.imago.ac.uk/datasets/google-satellite-embedding-v1-small-areas-2017-2024) and save it as `data/extracted-lsoa-geopackage_2024_output.gpkg`. `README.md` in the repository has the full instructions.

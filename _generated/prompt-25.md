@@ -1,0 +1,4 @@
+
+```{=html}
+<div class="note prompt"><div class="note-meta"><a href="transcript.html#p-25">#25</a> · Wed 4 Nov, 14:56</div><div class="note-text">Fantastic. Let&#x27;s iterate a couple on of items more. One, show me a few alternatives with different colors for the fade. I like your idea of a light one that makes it more washed, but think also of at least two more to compare. Then I also want you to think of other combinations of the lines that highlight the L SOAs. Red and yellow are very effective but are not, at least in these tonalities, the most aesthetic. Show me at least five combinations. And then finally, the inset, given that we have the fade, let&#x27;s do one without any rectangle. I just want the shape of the UK and pick the color for the UK then based on a contrast with whatever the fade is. Take these three dimensions and make me a grid of combinations to see which one Ilike best.</div></div>
+```

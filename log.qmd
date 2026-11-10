@@ -1,0 +1,8 @@
+---
+title: "Log"
+subtitle: "The exploration log, written along the way"
+---
+
+Claude kept this log in `LOG.md` throughout the project, adding an entry only when the human asked for one. It's the most compact record of what was tried, the numbers behind each decision and the dead ends. It's included here as it stands in the repository (without its own title).
+
+{{< include _generated/log.md >}}

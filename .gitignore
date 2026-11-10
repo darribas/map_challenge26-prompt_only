@@ -1,0 +1,20 @@
+# Data: download it yourself (see README). Includes the caches the notebooks write (*.parquet).
+data/
+
+# Full-resolution figures written by the notebooks (~135 MB). The site uses the web copies in images/,
+# so only the final submission cards are kept at full resolution.
+figures/*
+!figures/submission/
+
+# Quarto and Python by-products
+/.quarto/
+_freeze/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.venv/
+
+**/*.quarto_ipynb
+
+# Editor swap files
+*.swp

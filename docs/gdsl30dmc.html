@@ -1,0 +1,1810 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.19">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>#30DayMapChallenge — Day 10: “Prompting only” – Neighbours, near and far</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-e9eb24fceedb79b45376debb377e4539.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Neighbours, near and far</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">The submission</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./backstory.html"> 
+<span class="menu-text">Backstory</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./prompts.html"> 
+<span class="menu-text">The prompts</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./transcript.html"> 
+<span class="menu-text">Transcript</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-notebooks" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Notebooks</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-notebooks">    
+        <li>
+    <a class="dropdown-item" href="./notebooks.html">
+ <span class="dropdown-text">About the notebooks</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./gdsl30dmc.html">
+ <span class="dropdown-text">1 · Neighbours and distances</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./gdsl30dmc_clusters.html">
+ <span class="dropdown-text">2 · Clusters and entities</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./gdsl30dmc_submission.html">
+ <span class="dropdown-text">3 · The submission, end to end</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="./log.html"> 
+<span class="menu-text">Log</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul class="collapse">
+  <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup">Setup</a></li>
+  <li><a href="#reading-data" id="toc-reading-data" class="nav-link" data-scroll-target="#reading-data">Reading data</a></li>
+  <li><a href="#building-the-contiguity-graph" id="toc-building-the-contiguity-graph" class="nav-link" data-scroll-target="#building-the-contiguity-graph">Building the contiguity graph</a></li>
+  <li><a href="#neighbour-dissimilarity" id="toc-neighbour-dissimilarity" class="nav-link" data-scroll-target="#neighbour-dissimilarity">Neighbour dissimilarity</a></li>
+  <li><a href="#mapping-the-most-dissimilar-areas" id="toc-mapping-the-most-dissimilar-areas" class="nav-link" data-scroll-target="#mapping-the-most-dissimilar-areas">Mapping the most dissimilar areas</a></li>
+  <li><a href="#most-dissimilar-neighbouring-pairs" id="toc-most-dissimilar-neighbouring-pairs" class="nav-link" data-scroll-target="#most-dissimilar-neighbouring-pairs">Most dissimilar neighbouring pairs</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">#30DayMapChallenge — Day 10: “Prompting only”</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Where in the UK do neighbouring small areas look most <em>unlike</em> each other from space? This notebook measures dissimilarity between contiguous LSOAs (and their Scottish/NI equivalents) using the distance between their 2024 AlphaEarth satellite-embedding vectors, aggregated by <a href="https://data.imago.ac.uk/datasets/google-satellite-embedding-v1-small-areas-2017-2024">Imago</a>.</p>
+<section id="setup" class="level2">
+<h2 class="anchored" data-anchor-id="setup">Setup</h2>
+<p>The libraries used throughout: <code>geopandas</code> for the polygons and embeddings, <code>libpysal</code>’s new <code>Graph</code> for contiguity, <code>scikit-learn</code> for cosine distances, and <code>joblib</code> to compute them in parallel. <code>autoreload</code> picks up edits to the shared <code>gdsl30dmc_tools.py</code> module without restarting the kernel.</p>
+<div id="5cf820f7-2017-4f5b-bcb2-534ad4e48b68" class="cell" data-execution_count="1">
+<details open="" class="code-fold">
+<summary>code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>load_ext autoreload</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>autoreload <span class="dv">2</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> joblib <span class="im">import</span> Parallel, delayed</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> libpysal <span class="im">import</span> graph</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics.pairwise <span class="im">import</span> paired_cosine_distances</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(gpd.__version__)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>1.2.0</code></pre>
+</div>
+</div>
+</section>
+<section id="reading-data" class="level2">
+<h2 class="anchored" data-anchor-id="reading-data">Reading data</h2>
+<p>Imago ships one GeoPackage per year, each holding small-area polygons (British National Grid, EPSG:27700) alongside the mean of each of the 64 embedding bands within the area. We start with 2024 and split the attributes into an embedding matrix for later distance calculations.</p>
+<div id="8c26688c-d9d7-4c54-8d89-9ab15af47c47" class="cell" data-execution_count="2">
+<details open="" class="code-fold">
+<summary>code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>YEAR <span class="op">=</span> <span class="dv">2024</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>lsoas <span class="op">=</span> gpd.read_file(<span class="ss">f"data/extracted-lsoa-geopackage_</span><span class="sc">{</span>YEAR<span class="sc">}</span><span class="ss">_output.gpkg"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>band_cols <span class="op">=</span> [c <span class="cf">for</span> c <span class="kw">in</span> lsoas.columns <span class="cf">if</span> c.startswith(<span class="st">"band"</span>)]</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>lsoas <span class="op">=</span> lsoas.set_index(<span class="st">"data_zone_code"</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(lsoas.crs, lsoas.shape)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>lsoas.index.<span class="bu">str</span>[<span class="dv">0</span>].value_counts().rename({<span class="st">"E"</span>: <span class="st">"England"</span>, <span class="st">"W"</span>: <span class="st">"Wales"</span>, <span class="st">"S"</span>: <span class="st">"Scotland"</span>, <span class="st">"N"</span>: <span class="st">"N. Ireland"</span>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>ERROR 1: PROJ: proj_create_from_database: Open of /opt/conda/envs/gds/share/proj failed</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>EPSG:27700 (46844, 65)</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<pre><code>data_zone_code
+England       33755
+Scotland       7392
+N. Ireland     3780
+Wales          1917
+Name: count, dtype: int64</code></pre>
+</div>
+</div>
+<div id="06272f6c-9d2f-43bd-bcc2-9a264796f433" class="cell" data-execution_count="3">
+<details open="" class="code-fold">
+<summary>code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>emb <span class="op">=</span> lsoas[band_cols].to_numpy()</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>norms <span class="op">=</span> np.linalg.norm(emb, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"NaN rows:"</span>, np.isnan(emb).<span class="bu">any</span>(axis<span class="op">=</span><span class="dv">1</span>).<span class="bu">sum</span>())</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>pd.Series(norms).describe()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>NaN rows: 0</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<pre><code>count    46844.000000
+mean         0.910100
+std          0.034245
+min          0.747833
+25%          0.885152
+50%          0.911380
+75%          0.937016
+max          0.992520
+dtype: float64</code></pre>
+</div>
+</div>
+</section>
+<section id="building-the-contiguity-graph" class="level2">
+<h2 class="anchored" data-anchor-id="building-the-contiguity-graph">Building the contiguity graph</h2>
+<p>We connect areas that share at least one boundary point (queen contiguity) using the new <code>libpysal.graph.Graph</code> API, keeping all four nations. Since the polygons come from four national statistical agencies, we first try the standard builder and check how many links cross national borders, where boundaries may not line up.</p>
+<div id="d4d6db5a-f0d2-4107-82e0-a05ef547c38a" class="cell" data-execution_count="4">
+<details open="" class="code-fold">
+<summary>code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>time</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>g_queen <span class="op">=</span> graph.Graph.build_contiguity(lsoas, rook<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>g_queen.summary()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>CPU times: user 15.8 s, sys: 816 ms, total: 16.6 s
+Wall time: 16.6 s</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<table class="caption-top table table-sm table-striped small">
+<caption>Graph Summary Statistics</caption>
+<tbody>
+<tr class="odd">
+<td>Number of nodes:</td>
+<td>46844</td>
+</tr>
+<tr class="even">
+<td>Number of edges:</td>
+<td>272424</td>
+</tr>
+<tr class="odd">
+<td>Number of connected components:</td>
+<td>32</td>
+</tr>
+<tr class="even">
+<td>Number of isolates:</td>
+<td>12</td>
+</tr>
+<tr class="odd">
+<td>Number of non-zero edges:</td>
+<td>272424</td>
+</tr>
+<tr class="even">
+<td>Percentage of non-zero edges:</td>
+<td>0.01%</td>
+</tr>
+<tr class="odd">
+<td>Number of asymmetries:</td>
+<td>NA</td>
+</tr>
+</tbody>
+</table>
+
+            
+<table class="caption-top table table-sm table-striped small">
+<caption>Sum of weights and Traces</caption>
+<tbody>
+<tr class="odd">
+<td>S0:</td>
+<td>272424</td>
+<td>GG:</td>
+<td>272424</td>
+</tr>
+<tr class="even">
+<td>S1:</td>
+<td>544848</td>
+<td>G'G:</td>
+<td>272424</td>
+</tr>
+<tr class="odd">
+<td>S3:</td>
+<td>7348832</td>
+<td>G'G + GG:</td>
+<td>544848</td>
+</tr>
+</tbody>
+</table>
+
+            <div>
+                Graph indexed by: <code>['E01000001', 'E01000002', 'E01000003', 'E01000005', 'E01...]</code>
+            </div>
+</div>
+</div>
+<div id="cdc3ef18-37c4-482b-9ade-dfc73b2a562c" class="cell" data-execution_count="5">
+<details open="" class="code-fold">
+<summary>code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>nation <span class="op">=</span> pd.Series(lsoas.index.<span class="bu">str</span>[<span class="dv">0</span>], index<span class="op">=</span>lsoas.index)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> link_types(g):</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Count directed links by nation pair, ignoring isolates' zero-weight self-loops."""</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    adj <span class="op">=</span> g.adjacency.reset_index()</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    adj <span class="op">=</span> adj[adj.focal <span class="op">!=</span> adj.neighbor]</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pd.Series(nation.loc[adj.focal].values <span class="op">+</span> <span class="st">"-"</span> <span class="op">+</span> nation.loc[adj.neighbor].values).value_counts()</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>link_types(g_queen)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<pre><code>E-E    197754
+S-S     41688
+N-N     22164
+W-W     10616
+W-E        99
+E-W        99
+E-S         2
+S-E         2
+Name: count, dtype: int64</code></pre>
+</div>
+</div>
+<section id="fixing-the-englandscotland-border" class="level3">
+<h3 class="anchored" data-anchor-id="fixing-the-englandscotland-border">Fixing the England–Scotland border</h3>
+<p>Only one England–Scotland pair is linked, even though about two dozen pairs of areas meet along that border. The two nations’ polygons slightly <em>overlap</em> there (by up to ~70,000 m²), and contiguity only counts polygons that touch without overlapping. Fuzzy contiguity links any pair of geometries that intersect, which covers touching (queen) and overlapping polygons alike, so it fixes the border without adding spurious links elsewhere.</p>
+<div id="9a9a7bea-5737-4118-87f7-792099821c55" class="cell" data-execution_count="6">
+<details open="" class="code-fold">
+<summary>code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>time</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> graph.Graph.build_fuzzy_contiguity(lsoas)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>edges <span class="op">=</span> <span class="kw">lambda</span> g: <span class="bu">set</span>(g.adjacency[g.adjacency <span class="op">&gt;</span> <span class="dv">0</span>].index)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Links only in queen:"</span>, <span class="bu">len</span>(edges(g_queen) <span class="op">-</span> edges(g)), <span class="st">"| only in fuzzy:"</span>, <span class="bu">len</span>(edges(g) <span class="op">-</span> edges(g_queen)))</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>link_types(g)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Links only in queen: 0 | only in fuzzy: 42
+CPU times: user 3.38 s, sys: 32.1 ms, total: 3.41 s
+Wall time: 3.41 s</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<pre><code>E-E    197754
+S-S     41688
+N-N     22164
+W-W     10616
+W-E        99
+E-W        99
+E-S        23
+S-E        23
+Name: count, dtype: int64</code></pre>
+</div>
+</div>
+<div id="a651a684-9d94-4513-9e98-430b5b721328" class="cell" data-execution_count="7">
+<details open="" class="code-fold">
+<summary>code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Isolates:"</span>, <span class="bu">len</span>(g.isolates), <span class="st">"| Components:"</span>, g.n_components)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pd.Series(g.component_labels).value_counts().head(<span class="dv">5</span>))</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>g.cardinalities.describe()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Isolates: 12 | Components: 31
+component labels
+0     42777
+29     3779
+1        89
+4        41
+12       28
+Name: count, dtype: int64</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>count    46844.000000
+mean         5.816455
+std          2.323981
+min          0.000000
+25%          4.000000
+50%          6.000000
+75%          7.000000
+max         53.000000
+Name: cardinalities, dtype: float64</code></pre>
+</div>
+</div>
+</section>
+<section id="dropping-areas-with-no-neighbours" class="level3">
+<h3 class="anchored" data-anchor-id="dropping-areas-with-no-neighbours">Dropping areas with no neighbours</h3>
+<p><strong>Note:</strong> the 12 areas with no neighbours (their own islands, with no link to any other area) are <strong>removed from both the graph and the embeddings table</strong> at this point, because a neighbour-dissimilarity score is undefined without neighbours. Island groups made up of several areas (e.g.&nbsp;in the Hebrides or Orkney) are kept, since their areas still neighbour each other. Everything below works on the trimmed <code>g</code>, <code>lsoas</code> and <code>emb</code>.</p>
+<p>The figure below records which areas were dropped, before we remove them: all 12 are offshore islands (Scilly, the Inner Hebrides, Orkney, Shetland and Rathlin), not mainland areas the graph wrongly failed to link.</p>
+<div id="3777842c-ac03-41d3-8952-05c8e6802408" class="cell" data-execution_count="8">
+<details open="" class="code-fold">
+<summary>code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> contextily <span class="im">as</span> cx</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>isolates <span class="op">=</span> g.isolates</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>iso <span class="op">=</span> lsoas.loc[isolates, [<span class="st">"geometry"</span>]]</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>tiles <span class="op">=</span> cx.providers.Esri.WorldGrayCanvas  <span class="co"># light, keyless basemap</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">16</span>, <span class="dv">12</span>))</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>ax0 <span class="op">=</span> fig.add_axes([<span class="dv">0</span>, <span class="dv">0</span>, <span class="fl">0.36</span>, <span class="dv">1</span>])</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>pts <span class="op">=</span> iso.representative_point()</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>pts.plot(ax<span class="op">=</span>ax0, color<span class="op">=</span><span class="st">"crimson"</span>, markersize<span class="op">=</span><span class="dv">40</span>, zorder<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, p <span class="kw">in</span> <span class="bu">enumerate</span>(pts, <span class="dv">1</span>):</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>    ax0.annotate(<span class="bu">str</span>(i), (p.x, p.y), xytext<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">3</span>), textcoords<span class="op">=</span><span class="st">"offset points"</span>, fontsize<span class="op">=</span><span class="dv">10</span>, weight<span class="op">=</span><span class="st">"bold"</span>)</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>ax0.set_xlim(<span class="op">-</span><span class="dv">50_000</span>, <span class="dv">700_000</span>)</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>ax0.set_ylim(<span class="op">-</span><span class="dv">30_000</span>, <span class="dv">1_230_000</span>)</span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>cx.add_basemap(ax0, crs<span class="op">=</span>iso.crs, source<span class="op">=</span>tiles, attribution_size<span class="op">=</span><span class="dv">6</span>)</span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>ax0.set_axis_off()</span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>ax0.set_title(<span class="ss">f"</span><span class="sc">{</span><span class="bu">len</span>(isolates)<span class="sc">}</span><span class="ss"> areas with no neighbours"</span>, fontsize<span class="op">=</span><span class="dv">14</span>)</span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, code <span class="kw">in</span> <span class="bu">enumerate</span>(isolates):</span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>    ax <span class="op">=</span> fig.add_axes([<span class="fl">0.38</span> <span class="op">+</span> (i <span class="op">%</span> <span class="dv">4</span>) <span class="op">*</span> <span class="fl">0.155</span>, <span class="fl">0.70</span> <span class="op">-</span> (i <span class="op">//</span> <span class="dv">4</span>) <span class="op">*</span> <span class="fl">0.33</span>, <span class="fl">0.145</span>, <span class="fl">0.28</span>])</span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>    area <span class="op">=</span> iso.loc[[code]]</span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>    x0, y0, x1, y1 <span class="op">=</span> area.total_bounds</span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>    pad <span class="op">=</span> <span class="bu">max</span>(x1 <span class="op">-</span> x0, y1 <span class="op">-</span> y0) <span class="op">*</span> <span class="fl">1.5</span> <span class="op">+</span> <span class="dv">2000</span></span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a>    area.plot(ax<span class="op">=</span>ax, color<span class="op">=</span><span class="st">"crimson"</span>, alpha<span class="op">=</span><span class="fl">0.6</span>)</span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a>    ax.set_xlim(x0 <span class="op">-</span> pad, x1 <span class="op">+</span> pad)</span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a>    ax.set_ylim(y0 <span class="op">-</span> pad, y1 <span class="op">+</span> pad)</span>
+<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a>    cx.add_basemap(ax, crs<span class="op">=</span>iso.crs, source<span class="op">=</span>tiles, attribution<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a>    ax.set_xticks([])<span class="op">;</span> ax.set_yticks([])<span class="op">;</span> ax.set_xlabel(<span class="st">""</span>)<span class="op">;</span> ax.set_ylabel(<span class="st">""</span>)</span>
+<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a>    ax.set_title(<span class="ss">f"</span><span class="sc">{</span>i <span class="op">+</span> <span class="dv">1</span><span class="sc">}</span><span class="ss">. </span><span class="sc">{</span>code<span class="sc">}</span><span class="ch">\n</span><span class="sc">{</span>area<span class="sc">.</span>area<span class="sc">.</span>iloc[<span class="dv">0</span>] <span class="op">/</span> <span class="fl">1e6</span><span class="sc">:.1f}</span><span class="ss"> km²"</span>, fontsize<span class="op">=</span><span class="dv">9</span>)</span>
+<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="gdsl30dmc_files/figure-html/cell-9-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="gdsl30dmc_files/figure-html/cell-9-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="339750d8-19d4-47c7-8319-025390e687c1" class="cell" data-execution_count="9">
+<details open="" class="code-fold">
+<summary>code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>isolates <span class="op">=</span> g.isolates</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Dropping </span><span class="sc">{</span><span class="bu">len</span>(isolates)<span class="sc">}</span><span class="ss"> areas:"</span>, <span class="st">", "</span>.join(isolates))</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>lsoas <span class="op">=</span> lsoas.drop(isolates)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> g.subgraph(lsoas.index)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>emb <span class="op">=</span> lsoas[band_cols].to_numpy()</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> (g.unique_ids <span class="op">==</span> lsoas.index).<span class="bu">all</span>() <span class="kw">and</span> <span class="bu">len</span>(g.isolates) <span class="op">==</span> <span class="dv">0</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Remaining: </span><span class="sc">{</span><span class="bu">len</span>(lsoas)<span class="sc">:,}</span><span class="ss"> areas | </span><span class="sc">{</span>g<span class="sc">.</span>n_edges<span class="sc">:,}</span><span class="ss"> links | </span><span class="sc">{</span>g<span class="sc">.</span>n_components<span class="sc">}</span><span class="ss"> components"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Dropping 12 areas: E01019077, S01014306, S01014332, S01014346, S01019112, S01019115, S01019116, S01019117, S01019737, S01019747, S01019748, N20001651
+Remaining: 46,832 areas | 272,466 links | 19 components</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="neighbour-dissimilarity" class="level2">
+<h2 class="anchored" data-anchor-id="neighbour-dissimilarity">Neighbour dissimilarity</h2>
+<p>We measure how different each area is from each of its neighbours using <strong>cosine distance</strong> between their 2024 embedding vectors (1 − cosine similarity, from 0 for identical directions to 2 for opposite). Cosine ignores vector length, which in these area averages partly reflects how mixed the land cover is, and is the comparison AlphaEarth embeddings are designed for. Neighbours come from the fuzzy-contiguity graph <code>g</code>, i.e.&nbsp;queen contiguity plus the overlapping England–Scotland border pairs.</p>
+<p>The 46,832 areas are split into 16 groups (one per core), and each group’s distances to all its neighbours are computed on a separate thread. NumPy releases Python’s global interpreter lock while it computes, so threads share the arrays without copying them. The results are reassembled into the order of <code>g.adjacency</code> and stored as the weights of a new graph, <code>g_dist</code>.</p>
+<div id="301c6444-85ec-4dff-8acf-1d57d73620bf" class="cell" data-execution_count="10">
+<details open="" class="code-fold">
+<summary>code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>time</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>N_CHUNKS <span class="op">=</span> <span class="dv">16</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>emb <span class="op">=</span> np.ascontiguousarray(emb)  <span class="co"># row-major, so gathering whole rows is fast (~4x here)</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>adj <span class="op">=</span> g.adjacency</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>i <span class="op">=</span> lsoas.index.get_indexer(adj.index.get_level_values(<span class="st">"focal"</span>))  <span class="co"># row of each focal area in emb</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>j <span class="op">=</span> lsoas.index.get_indexer(adj.index.get_level_values(<span class="st">"neighbor"</span>))</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Assign each area to one of N_CHUNKS groups, then find the links whose focal area is in each group</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>area_chunk <span class="op">=</span> np.repeat(np.arange(N_CHUNKS), [<span class="bu">len</span>(c) <span class="cf">for</span> c <span class="kw">in</span> np.array_split(np.arange(<span class="bu">len</span>(lsoas)), N_CHUNKS)])</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>link_chunk <span class="op">=</span> area_chunk[i]</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> [np.flatnonzero(link_chunk <span class="op">==</span> k) <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(N_CHUNKS)]</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>parts <span class="op">=</span> Parallel(n_jobs<span class="op">=</span>N_CHUNKS, backend<span class="op">=</span><span class="st">"threading"</span>)(</span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>    delayed(paired_cosine_distances)(emb[i[r]], emb[j[r]]) <span class="cf">for</span> r <span class="kw">in</span> rows</span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>dist <span class="op">=</span> np.empty(<span class="bu">len</span>(adj))</span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> r, d <span class="kw">in</span> <span class="bu">zip</span>(rows, parts):</span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>    dist[r] <span class="op">=</span> d</span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>g_dist <span class="op">=</span> graph.Graph(pd.Series(dist, index<span class="op">=</span>adj.index, name<span class="op">=</span><span class="st">"weight"</span>))</span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>CPU times: user 1.12 s, sys: 271 ms, total: 1.39 s
+Wall time: 865 ms</code></pre>
+</div>
+</div>
+<div id="02c7beea-14db-4e9a-8247-717c614db2bf" class="cell" data-execution_count="11">
+<details open="" class="code-fold">
+<summary>code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sanity checks: every link covered once, identical to the serial calculation, same structure as g</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="bu">sum</span>(<span class="bu">len</span>(r) <span class="cf">for</span> r <span class="kw">in</span> rows) <span class="op">==</span> <span class="bu">len</span>(adj)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> np.allclose(dist, paired_cosine_distances(emb[i], emb[j]))</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> g_dist.n_edges <span class="op">==</span> g.n_edges <span class="kw">and</span> (g_dist.unique_ids <span class="op">==</span> g.unique_ids).<span class="bu">all</span>()</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>g_dist.adjacency.describe()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="11">
+<pre><code>count    272466.000000
+mean          0.053723
+std           0.058251
+min           0.000446
+25%           0.015623
+50%           0.032057
+75%           0.068060
+max           0.538219
+Name: weight, dtype: float64</code></pre>
+</div>
+</div>
+<div id="a53ab276-3464-41a6-9a9d-a51b9548d781" class="cell" data-execution_count="12">
+<details open="" class="code-fold">
+<summary>code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">4</span>))</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>ax.hist(g_dist.adjacency, bins<span class="op">=</span><span class="dv">200</span>, color<span class="op">=</span><span class="st">"0.3"</span>)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Cosine distance between neighbouring areas"</span>)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Number of links (both directions)"</span>)</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="ss">f"Neighbour dissimilarity, </span><span class="sc">{</span>YEAR<span class="sc">}</span><span class="ss">"</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="gdsl30dmc_files/figure-html/cell-13-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="gdsl30dmc_files/figure-html/cell-13-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="most-dissimilar-neighbour" class="level3">
+<h3 class="anchored" data-anchor-id="most-dissimilar-neighbour">Most dissimilar neighbour</h3>
+<p>For each area we keep the single neighbour it differs from most, and the cosine distance to it. The result is a table with one row per area, indexed by area code, with two columns: <code>neighbor</code> (the most dissimilar neighbour’s code) and <code>distance</code>.</p>
+<div id="b56e2646-b34e-43dd-8caf-3379ebb682ff" class="cell" data-execution_count="13">
+<details open="" class="code-fold">
+<summary>code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>d <span class="op">=</span> g_dist.adjacency</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>most_dissimilar <span class="op">=</span> (</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    d.sort_values(ascending<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    .reset_index()</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    .drop_duplicates(<span class="st">"focal"</span>)  <span class="co"># keeps each area's largest distance</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    .set_index(<span class="st">"focal"</span>)</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    .reindex(lsoas.index)</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>    .rename(columns<span class="op">=</span>{<span class="st">"weight"</span>: <span class="st">"distance"</span>})</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>most_dissimilar.index.name <span class="op">=</span> <span class="st">"area"</span></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> most_dissimilar.notna().<span class="bu">all</span>().<span class="bu">all</span>()</span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>most_dissimilar.sort_values(<span class="st">"distance"</span>, ascending<span class="op">=</span><span class="va">False</span>).head(<span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="13">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">neighbor</th>
+<th data-quarto-table-cell-role="th">distance</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">area</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">E01030710</th>
+<td>E01030745</td>
+<td>0.538219</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">E01030745</th>
+<td>E01030710</td>
+<td>0.538219</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">E01030744</th>
+<td>E01030745</td>
+<td>0.535450</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">E01030746</th>
+<td>E01030745</td>
+<td>0.533737</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">E01030711</th>
+<td>E01030745</td>
+<td>0.524066</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">E01031353</th>
+<td>E01031359</td>
+<td>0.513233</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">E01031359</th>
+<td>E01031353</td>
+<td>0.513233</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">E01034298</th>
+<td>E01020936</td>
+<td>0.502896</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">E01020936</th>
+<td>E01034298</td>
+<td>0.502896</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">E01030708</th>
+<td>E01030745</td>
+<td>0.502224</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="0f3f37dd-9232-4ac1-8cae-01e52ba23aa4" class="cell" data-execution_count="14">
+<details open="" class="code-fold">
+<summary>code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>most_dissimilar[<span class="st">"distance"</span>].describe()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="14">
+<pre><code>count    46832.000000
+mean         0.116488
+std          0.076095
+min          0.001527
+25%          0.056489
+50%          0.099182
+75%          0.162252
+max          0.538219
+Name: distance, dtype: float64</code></pre>
+</div>
+</div>
+</section>
+<section id="dissimilarity-from-the-whole-neighbourhood" class="level3">
+<h3 class="anchored" data-anchor-id="dissimilarity-from-the-whole-neighbourhood">Dissimilarity from the whole neighbourhood</h3>
+<p>Two ways to score how different an area is from its neighbourhood as a whole, using equal weights for every neighbour:</p>
+<ul>
+<li><strong><code>mean_dist</code></strong>: the average of the cosine distances to each neighbour, i.e.&nbsp;how different the area is from its neighbours one by one. Taken from the weights of <code>g_dist</code>.</li>
+<li><strong><code>lag_dist</code></strong>: the cosine distance to the <em>average neighbour</em>, i.e.&nbsp;how different the area is from its surroundings taken together. The average neighbour is the spatial lag of the embeddings on the row-standardised graph.</li>
+</ul>
+<p>Since averaging neighbours tends to cancel out their differences, <code>lag_dist</code> should be at most <code>mean_dist</code> for nearly every area. The gap between the two is roughly how much the neighbours differ among themselves.</p>
+<div id="105ff4a9-d0b4-4306-b60b-5cd11eda30ce" class="cell" data-execution_count="15">
+<details open="" class="code-fold">
+<summary>code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>emb_lag <span class="op">=</span> g.transform(<span class="st">"r"</span>).lag(emb)  <span class="co"># row i = mean embedding of area i's neighbours</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>neighbourhood <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"mean_dist"</span>: g_dist.aggregate(<span class="st">"mean"</span>).reindex(lsoas.index),</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"lag_dist"</span>: paired_cosine_distances(emb, emb_lag),</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>}, index<span class="op">=</span>lsoas.index)</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> neighbourhood.notna().<span class="bu">all</span>().<span class="bu">all</span>()</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Areas where lag_dist &gt; mean_dist:"</span>, (neighbourhood.lag_dist <span class="op">&gt;</span> neighbourhood.mean_dist).<span class="bu">sum</span>())</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Spearman rank correlation:"</span>, <span class="bu">round</span>(neighbourhood.corr(method<span class="op">=</span><span class="st">"spearman"</span>).iloc[<span class="dv">0</span>, <span class="dv">1</span>], <span class="dv">3</span>))</span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>neighbourhood.describe()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Areas where lag_dist &gt; mean_dist: 0
+Spearman rank correlation: 0.839</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="15">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">mean_dist</th>
+<th data-quarto-table-cell-role="th">lag_dist</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">count</th>
+<td>46832.000000</td>
+<td>46832.000000</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">mean</th>
+<td>0.053231</td>
+<td>0.025731</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">std</th>
+<td>0.033342</td>
+<td>0.026431</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">min</th>
+<td>0.001246</td>
+<td>0.000389</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">25%</th>
+<td>0.029067</td>
+<td>0.009408</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">50%</th>
+<td>0.046407</td>
+<td>0.017330</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">75%</th>
+<td>0.069374</td>
+<td>0.032247</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">max</th>
+<td>0.455714</td>
+<td>0.438115</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="68a7f30b-3d01-4ce8-9b9d-9894fcf51906" class="cell" data-execution_count="16">
+<details open="" class="code-fold">
+<summary>code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">6</span>))</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>hb <span class="op">=</span> ax.hexbin(neighbourhood.mean_dist, neighbourhood.lag_dist, gridsize<span class="op">=</span><span class="dv">120</span>, bins<span class="op">=</span><span class="st">"log"</span>, cmap<span class="op">=</span><span class="st">"viridis"</span>, mincnt<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>lim <span class="op">=</span> neighbourhood.<span class="bu">max</span>().<span class="bu">max</span>() <span class="op">*</span> <span class="fl">1.02</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>ax.plot([<span class="dv">0</span>, lim], [<span class="dv">0</span>, lim], color<span class="op">=</span><span class="st">"0.5"</span>, lw<span class="op">=</span><span class="fl">0.8</span>, ls<span class="op">=</span><span class="st">"--"</span>)</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>ax.set_xlim(<span class="dv">0</span>, lim)<span class="op">;</span> ax.set_ylim(<span class="dv">0</span>, lim)<span class="op">;</span> ax.set_aspect(<span class="st">"equal"</span>)</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"mean_dist: average distance to each neighbour"</span>)</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"lag_dist: distance to the average neighbour"</span>)</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>fig.colorbar(hb, ax<span class="op">=</span>ax, shrink<span class="op">=</span><span class="fl">0.8</span>, label<span class="op">=</span><span class="st">"Areas (log scale)"</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="gdsl30dmc_files/figure-html/cell-17-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="gdsl30dmc_files/figure-html/cell-17-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="mapping-the-most-dissimilar-areas" class="level2">
+<h2 class="anchored" data-anchor-id="mapping-the-most-dissimilar-areas">Mapping the most dissimilar areas</h2>
+<p>Each area becomes a Polaroid-style card. A square satellite photo (Esri imagery, no API key needed) shows the focal area outlined in orange and its neighbours in green, with everything outside them washed out towards white. Below it, a caption strip carries the area code and its scores in bold <a href="https://github.com/erikdkennedy/figtree">Figtree</a>, Imago’s brand font, plus a UK silhouette locating the area. Colours follow <a href="https://imago.ac.uk">Imago</a>’s brand palette: Orange <code>#FF8F42</code>, Green <code>#03CEA3</code>, and Imago Grey <code>#4A4A49</code> for the text and the UK silhouette.</p>
+<p>The card template, the UK silhouette and the export helper live in <code>gdsl30dmc_tools.py</code>, shared with the other notebooks. The silhouette is built by merging each nation’s areas, using GEOS’s fast <code>coverage_union</code> where the polygons tile cleanly, then simplifying. It takes about 25 s and is cached to <code>data/uk_outline.parquet</code>, so it’s only built once.</p>
+<div id="bc9b65d0-4128-406f-9596-1e42fe2e5544" class="cell" data-execution_count="17">
+<details open="" class="code-fold">
+<summary>code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>time</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> gdsl30dmc_tools <span class="im">as</span> tools</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>uk_outline <span class="op">=</span> tools.uk_outline(lsoas)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>CPU times: user 25.7 s, sys: 510 ms, total: 26.2 s
+Wall time: 26.2 s</code></pre>
+</div>
+</div>
+<div id="ac41a997-58c3-40b6-867b-af632ffe7710" class="cell" data-execution_count="18">
+<details open="" class="code-fold">
+<summary>code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_focal(code):</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Card for area `code` (orange) and its neighbours (green), captioned with its neighbourhood scores."""</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    s <span class="op">=</span> neighbourhood.loc[code]</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>    subtitle <span class="op">=</span> <span class="ss">f"mean_dist </span><span class="sc">{</span>s<span class="sc">.</span>mean_dist<span class="sc">:.3f}</span><span class="ss">  ·  lag_dist </span><span class="sc">{</span>s<span class="sc">.</span>lag_dist<span class="sc">:.3f}</span><span class="ss">  ·  </span><span class="sc">{</span>g<span class="sc">.</span>cardinalities[code]<span class="sc">}</span><span class="ss"> neighbours"</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> tools.area_card(lsoas, code, g.neighbors[code], subtitle, uk_outline)</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_pair(a, b):</span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Card for neighbouring areas `a` (orange) and `b` (green), captioned with their cosine distance."""</span></span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>    subtitle <span class="op">=</span> <span class="ss">f"cosine distance </span><span class="sc">{</span>g_dist<span class="sc">.</span>adjacency<span class="sc">.</span>loc[(a, b)]<span class="sc">:.3f}</span><span class="ss">  ·  neighbouring areas"</span></span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> tools.pair_card(lsoas, a, b, subtitle, uk_outline)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<section id="the-most-dissimilar-area" class="level3">
+<h3 class="anchored" data-anchor-id="the-most-dissimilar-area">The most dissimilar area</h3>
+<p><code>E01030745</code> ranks first on both <code>mean_dist</code> and <code>lag_dist</code>. It is almost entirely open water, a pair of reservoir basins just south of Heathrow, surrounded by housing, industry and airport land. Its only similar neighbour (cosine distance 0.16) is the large reservoir to the west.</p>
+<div id="ba17d654-865e-4d5b-aebc-8627d95c5ef5" class="cell" data-execution_count="19">
+<details open="" class="code-fold">
+<summary>code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>top <span class="op">=</span> neighbourhood[<span class="st">"lag_dist"</span>].idxmax()</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> top <span class="op">==</span> neighbourhood[<span class="st">"mean_dist"</span>].idxmax()</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plot_focal(top)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="gdsl30dmc_files/figure-html/cell-20-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="gdsl30dmc_files/figure-html/cell-20-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="exporting-the-cards" class="level3">
+<h3 class="anchored" data-anchor-id="exporting-the-cards">Exporting the cards</h3>
+<p>Cards are saved to <code>figures/</code> at 200 dpi with <code>tools.export_card</code>, keeping the full white border and caption strip. It doesn’t use <code>bbox_inches="tight"</code>, which would trim the Polaroid margins.</p>
+<div id="9a492e5c-2426-4b86-903e-b55ef7b9b58e" class="cell" data-execution_count="20">
+<details open="" class="code-fold">
+<summary>code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>export_card <span class="op">=</span> tools.export_card</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>export_card(fig, top)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="20">
+<pre><code>PosixPath('/home/jovyan/work/figures/E01030745.png')</code></pre>
+</div>
+</div>
+</section>
+<section id="top-5-areas-on-each-measure" class="level3">
+<h3 class="anchored" data-anchor-id="top-5-areas-on-each-measure">Top 5 areas on each measure</h3>
+<p>We take the five highest-scoring areas on <code>mean_dist</code> and on <code>lag_dist</code>, combine them into one list without duplicates, and make and export a card for each. The table shows each area’s rank on both measures.</p>
+<div id="5756b4eb-b27f-4693-8c93-241f65182903" class="cell" data-execution_count="21">
+<details open="" class="code-fold">
+<summary>code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>N_TOP <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>top_mean <span class="op">=</span> neighbourhood[<span class="st">"mean_dist"</span>].nlargest(N_TOP).index</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>top_lag <span class="op">=</span> neighbourhood[<span class="st">"lag_dist"</span>].nlargest(N_TOP).index</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>cases <span class="op">=</span> top_mean.union(top_lag, sort<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>ranks <span class="op">=</span> neighbourhood.rank(ascending<span class="op">=</span><span class="va">False</span>).astype(<span class="bu">int</span>).add_suffix(<span class="st">"_rank"</span>)</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>neighbourhood.join(ranks).loc[cases]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="21">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">mean_dist</th>
+<th data-quarto-table-cell-role="th">lag_dist</th>
+<th data-quarto-table-cell-role="th">mean_dist_rank</th>
+<th data-quarto-table-cell-role="th">lag_dist_rank</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">data_zone_code</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">E01030745</th>
+<td>0.455714</td>
+<td>0.438115</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">N20003012</th>
+<td>0.381098</td>
+<td>0.373842</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">W01001286</th>
+<td>0.375061</td>
+<td>0.359898</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">N20002748</th>
+<td>0.355019</td>
+<td>0.353096</td>
+<td>4</td>
+<td>4</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">E01026177</th>
+<td>0.314997</td>
+<td>0.307863</td>
+<td>5</td>
+<td>5</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="747b75cf-730a-4dcf-946d-71101326f642" class="cell" data-execution_count="22">
+<details open="" class="code-fold">
+<summary>code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> code <span class="kw">in</span> cases:</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>    fig <span class="op">=</span> plot_focal(code)</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(export_card(fig, code))</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>    plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>/home/jovyan/work/figures/E01030745.png</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="gdsl30dmc_files/figure-html/cell-23-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="gdsl30dmc_files/figure-html/cell-23-output-2.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>/home/jovyan/work/figures/N20003012.png</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="gdsl30dmc_files/figure-html/cell-23-output-4.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="gdsl30dmc_files/figure-html/cell-23-output-4.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>/home/jovyan/work/figures/W01001286.png</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="gdsl30dmc_files/figure-html/cell-23-output-6.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img src="gdsl30dmc_files/figure-html/cell-23-output-6.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>/home/jovyan/work/figures/N20002748.png</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="gdsl30dmc_files/figure-html/cell-23-output-8.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img src="gdsl30dmc_files/figure-html/cell-23-output-8.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>/home/jovyan/work/figures/E01026177.png</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="gdsl30dmc_files/figure-html/cell-23-output-10.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img src="gdsl30dmc_files/figure-html/cell-23-output-10.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="most-dissimilar-neighbouring-pairs" class="level2">
+<h2 class="anchored" data-anchor-id="most-dissimilar-neighbouring-pairs">Most dissimilar neighbouring pairs</h2>
+<p>Instead of scoring an area against its whole neighbourhood, we now look at individual pairs of neighbours: two areas that share a border and look most unlike each other from space. Each pair appears twice in <code>g_dist</code> (A→B and B→A, with the same distance), so we keep one row per pair and rank them by cosine distance.</p>
+<div id="fd940ba9-e206-47df-bcb0-20129a69da4c" class="cell" data-execution_count="23">
+<details open="" class="code-fold">
+<summary>code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>pairs <span class="op">=</span> g_dist.adjacency.reset_index().rename(columns<span class="op">=</span>{<span class="st">"focal"</span>: <span class="st">"area_a"</span>, <span class="st">"neighbor"</span>: <span class="st">"area_b"</span>, <span class="st">"weight"</span>: <span class="st">"distance"</span>})</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>pairs <span class="op">=</span> pairs[pairs.area_a <span class="op">&lt;</span> pairs.area_b].sort_values(<span class="st">"distance"</span>, ascending<span class="op">=</span><span class="va">False</span>).reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="bu">len</span>(pairs)<span class="sc">:,}</span><span class="ss"> unique pairs"</span>)</span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>pairs[<span class="st">"distance"</span>].describe()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>136,233 unique pairs</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="23">
+<pre><code>count    136233.000000
+mean          0.053723
+std           0.058251
+min           0.000446
+25%           0.015623
+50%           0.032057
+75%           0.068060
+max           0.538219
+Name: distance, dtype: float64</code></pre>
+</div>
+</div>
+<div id="9de09aca-ce1c-4569-83cd-ef376a0a044f" class="cell" data-execution_count="24">
+<details open="" class="code-fold">
+<summary>code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>top_pairs <span class="op">=</span> pairs.head(<span class="dv">20</span>)</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Distinct areas among the top 20 pairs:"</span>, pd.unique(top_pairs[[<span class="st">"area_a"</span>, <span class="st">"area_b"</span>]].values.ravel()).size)</span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Most frequent areas in the top 20:"</span>)</span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pd.Series(top_pairs[[<span class="st">"area_a"</span>, <span class="st">"area_b"</span>]].values.ravel()).value_counts().head(<span class="dv">5</span>).to_string())</span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>top_pairs</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Distinct areas among the top 20 pairs: 32
+Most frequent areas in the top 20:
+E01030745    7
+E01034298    2
+N20003012    2
+E01030744    1
+E01030711    1</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="24">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">area_a</th>
+<th data-quarto-table-cell-role="th">area_b</th>
+<th data-quarto-table-cell-role="th">distance</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>E01030710</td>
+<td>E01030745</td>
+<td>0.538219</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>E01030744</td>
+<td>E01030745</td>
+<td>0.535450</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>E01030745</td>
+<td>E01030746</td>
+<td>0.533737</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>E01030711</td>
+<td>E01030745</td>
+<td>0.524066</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>E01031353</td>
+<td>E01031359</td>
+<td>0.513233</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">5</th>
+<td>E01020936</td>
+<td>E01034298</td>
+<td>0.502896</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">6</th>
+<td>E01030708</td>
+<td>E01030745</td>
+<td>0.502224</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">7</th>
+<td>E01020937</td>
+<td>E01034298</td>
+<td>0.501605</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">8</th>
+<td>E01029178</td>
+<td>E01035125</td>
+<td>0.483857</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">9</th>
+<td>W01001947</td>
+<td>W01002024</td>
+<td>0.480610</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">10</th>
+<td>E01032000</td>
+<td>E01032002</td>
+<td>0.478253</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">11</th>
+<td>E01003806</td>
+<td>E01003807</td>
+<td>0.473121</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">12</th>
+<td>E01016234</td>
+<td>E01016236</td>
+<td>0.472666</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">13</th>
+<td>E01028757</td>
+<td>E01035757</td>
+<td>0.464131</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">14</th>
+<td>E01030734</td>
+<td>E01030745</td>
+<td>0.462928</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">15</th>
+<td>S01018583</td>
+<td>S01018595</td>
+<td>0.461067</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">16</th>
+<td>N20003012</td>
+<td>N20003016</td>
+<td>0.459638</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">17</th>
+<td>S01019753</td>
+<td>S01019761</td>
+<td>0.458229</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">18</th>
+<td>E01030743</td>
+<td>E01030745</td>
+<td>0.457491</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">19</th>
+<td>N20002993</td>
+<td>N20003012</td>
+<td>0.454623</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<section id="top-distinct-pairs" class="level3">
+<h3 class="anchored" data-anchor-id="top-distinct-pairs">Top distinct pairs</h3>
+<p>To avoid one area filling the list, we go down the ranking and skip any pair that shares an area with a pair already chosen. Each area then appears at most once. Each selected pair gets a Polaroid card from the same template as the area cards (<code>polaroid()</code>, via <code>plot_pair</code>): area A outlined in orange, area B in green, with a matching colour key next to each code in the caption.</p>
+<div id="03a73081-51c7-4273-a3e6-36c0280884a2" class="cell" data-execution_count="25">
+<details open="" class="code-fold">
+<summary>code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>N_PAIRS <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>used, picks <span class="op">=</span> <span class="bu">set</span>(), []</span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> row <span class="kw">in</span> pairs.itertuples():</span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> row.area_a <span class="kw">in</span> used <span class="kw">or</span> row.area_b <span class="kw">in</span> used:</span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">continue</span></span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>    picks.append(row.Index)</span>
+<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>    used <span class="op">|=</span> {row.area_a, row.area_b}</span>
+<span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">len</span>(picks) <span class="op">==</span> N_PAIRS:</span>
+<span id="cb52-9"><a href="#cb52-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">break</span></span>
+<span id="cb52-10"><a href="#cb52-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-11"><a href="#cb52-11" aria-hidden="true" tabindex="-1"></a>top_distinct <span class="op">=</span> pairs.loc[picks]</span>
+<span id="cb52-12"><a href="#cb52-12" aria-hidden="true" tabindex="-1"></a>top_distinct</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="25">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">area_a</th>
+<th data-quarto-table-cell-role="th">area_b</th>
+<th data-quarto-table-cell-role="th">distance</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>E01030710</td>
+<td>E01030745</td>
+<td>0.538219</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">4</th>
+<td>E01031353</td>
+<td>E01031359</td>
+<td>0.513233</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">5</th>
+<td>E01020936</td>
+<td>E01034298</td>
+<td>0.502896</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">8</th>
+<td>E01029178</td>
+<td>E01035125</td>
+<td>0.483857</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">9</th>
+<td>W01001947</td>
+<td>W01002024</td>
+<td>0.480610</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="79d8aabe-826b-40f2-bafb-c5025bf5e6eb" class="cell" data-execution_count="26">
+<details open="" class="code-fold">
+<summary>code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> row <span class="kw">in</span> top_distinct.itertuples():</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>    fig <span class="op">=</span> plot_pair(row.area_a, row.area_b)</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(export_card(fig, <span class="ss">f"pair_</span><span class="sc">{</span>row<span class="sc">.</span>area_a<span class="sc">}</span><span class="ss">_</span><span class="sc">{</span>row<span class="sc">.</span>area_b<span class="sc">}</span><span class="ss">"</span>))</span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>    plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>/home/jovyan/work/figures/pair_E01030710_E01030745.png</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="gdsl30dmc_files/figure-html/cell-27-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10"><img src="gdsl30dmc_files/figure-html/cell-27-output-2.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>/home/jovyan/work/figures/pair_E01031353_E01031359.png</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="gdsl30dmc_files/figure-html/cell-27-output-4.png" class="lightbox" data-gallery="quarto-lightbox-gallery-11"><img src="gdsl30dmc_files/figure-html/cell-27-output-4.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>/home/jovyan/work/figures/pair_E01020936_E01034298.png</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="gdsl30dmc_files/figure-html/cell-27-output-6.png" class="lightbox" data-gallery="quarto-lightbox-gallery-12"><img src="gdsl30dmc_files/figure-html/cell-27-output-6.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>/home/jovyan/work/figures/pair_E01029178_E01035125.png</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="gdsl30dmc_files/figure-html/cell-27-output-8.png" class="lightbox" data-gallery="quarto-lightbox-gallery-13"><img src="gdsl30dmc_files/figure-html/cell-27-output-8.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>/home/jovyan/work/figures/pair_W01001947_W01002024.png</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="gdsl30dmc_files/figure-html/cell-27-output-10.png" class="lightbox" data-gallery="quarto-lightbox-gallery-14"><img src="gdsl30dmc_files/figure-html/cell-27-output-10.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/darribas\.github\.io\/map_challenge26-prompt_only\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Embeddings: Google Satellite Embedding (AlphaEarth Foundations) for UK small areas, via <a href="https://data.imago.ac.uk/datasets/google-satellite-embedding-v1-small-areas-2017-2024">Imago</a> · Imagery: Esri World Imagery · Made by prompting <a href="https://claude.com/claude-code">Claude Code</a></p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

@@ -1,0 +1,64 @@
+project:
+  type: website
+  output-dir: docs          # GitHub Pages serves this folder (Settings → Pages → Deploy from branch → /docs)
+  render:
+    - index.qmd
+    - backstory.qmd
+    - prompts.qmd
+    - transcript.qmd
+    - notebooks.qmd
+    - log.qmd
+    - gdsl30dmc.ipynb
+    - gdsl30dmc_clusters.ipynb
+    - gdsl30dmc_submission.ipynb
+  pre-render: scripts/build_site.py   # web images, transcript and prompt pages (see the script)
+  post-render: scripts/post_render.py # adds docs/.nojekyll for GitHub Pages
+  resources:                # files referenced from raw HTML, which Quarto can't discover on its own
+    - images/
+    - conversation/img/
+
+# Notebooks are shown with the outputs saved in them; nothing is executed when the site is built, so no data is needed.
+execute:
+  enabled: false
+
+website:
+  title: "Neighbours, near and far"
+  description: "The UK's most different and most alike neighbouring places, seen through AlphaEarth embeddings. #30DayMapChallenge, day 10: prompting only."
+  site-url: "https://darribas.github.io/map_challenge26-prompt_only/"
+  repo-url: "https://github.com/darribas/map_challenge26-prompt_only"
+  page-navigation: true
+  navbar:
+    left:
+      - href: index.qmd
+        text: The submission
+      - href: backstory.qmd
+        text: Backstory
+      - href: prompts.qmd
+        text: The prompts
+      - href: transcript.qmd
+        text: Transcript
+      - text: Notebooks
+        menu:
+          - href: notebooks.qmd
+            text: About the notebooks
+          - href: gdsl30dmc.ipynb
+            text: "1 · Neighbours and distances"
+          - href: gdsl30dmc_clusters.ipynb
+            text: "2 · Clusters and entities"
+          - href: gdsl30dmc_submission.ipynb
+            text: "3 · The submission, end to end"
+      - href: log.qmd
+        text: Log
+  page-footer:
+    center: "Embeddings: Google Satellite Embedding (AlphaEarth Foundations) for UK small areas, via [Imago](https://data.imago.ac.uk/datasets/google-satellite-embedding-v1-small-areas-2017-2024) · Imagery: Esri World Imagery · Made by prompting [Claude Code](https://claude.com/claude-code)"
+
+format:
+  html:
+    theme: [cosmo, site/theme.scss]
+    toc: true
+    toc-depth: 2
+    smooth-scroll: true
+    link-external-newwindow: true
+    code-fold: show
+    code-summary: "code"
+    lightbox: true

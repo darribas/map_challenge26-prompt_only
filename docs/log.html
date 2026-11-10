@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.19">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Log – Neighbours, near and far</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-e9eb24fceedb79b45376debb377e4539.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Neighbours, near and far</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">The submission</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./backstory.html"> 
+<span class="menu-text">Backstory</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./prompts.html"> 
+<span class="menu-text">The prompts</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./transcript.html"> 
+<span class="menu-text">Transcript</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-notebooks" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Notebooks</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-notebooks">    
+        <li>
+    <a class="dropdown-item" href="./notebooks.html">
+ <span class="dropdown-text">About the notebooks</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./gdsl30dmc.html">
+ <span class="dropdown-text">1 · Neighbours and distances</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./gdsl30dmc_clusters.html">
+ <span class="dropdown-text">2 · Clusters and entities</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./gdsl30dmc_submission.html">
+ <span class="dropdown-text">3 · The submission, end to end</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" href="./log.html" aria-current="page"> 
+<span class="menu-text">Log</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul class="collapse">
+  <li><a href="#contiguity-graph-all-four-nations-queen" id="toc-contiguity-graph-all-four-nations-queen" class="nav-link active" data-scroll-target="#contiguity-graph-all-four-nations-queen">2026-11-04 — Contiguity graph (all four nations, queen)</a></li>
+  <li><a href="#dropped-areas-with-no-neighbours" id="toc-dropped-areas-with-no-neighbours" class="nav-link" data-scroll-target="#dropped-areas-with-no-neighbours">2026-11-04 — Dropped areas with no neighbours</a></li>
+  <li><a href="#isolates-figure" id="toc-isolates-figure" class="nav-link" data-scroll-target="#isolates-figure">2026-11-04 — Isolates figure</a></li>
+  <li><a href="#neighbour-dissimilarity-cosine" id="toc-neighbour-dissimilarity-cosine" class="nav-link" data-scroll-target="#neighbour-dissimilarity-cosine">2026-11-04 — Neighbour dissimilarity (cosine)</a></li>
+  <li><a href="#neighbourhood-dissimilarity-mean_dist-vs-lag_dist" id="toc-neighbourhood-dissimilarity-mean_dist-vs-lag_dist" class="nav-link" data-scroll-target="#neighbourhood-dissimilarity-mean_dist-vs-lag_dist">2026-11-04 — Neighbourhood dissimilarity: mean_dist vs lag_dist</a></li>
+  <li><a href="#map-template-style-c1" id="toc-map-template-style-c1" class="nav-link" data-scroll-target="#map-template-style-c1">2026-11-04 — Map template (style “C1”)</a></li>
+  <li><a href="#official-imago-palette" id="toc-official-imago-palette" class="nav-link" data-scroll-target="#official-imago-palette">2026-11-04 — Official Imago palette</a></li>
+  <li><a href="#polaroid-card-figtree-imago-grey" id="toc-polaroid-card-figtree-imago-grey" class="nav-link" data-scroll-target="#polaroid-card-figtree-imago-grey">2026-11-04 — Polaroid card, Figtree, Imago Grey</a></li>
+  <li><a href="#top-5-areas-per-measure" id="toc-top-5-areas-per-measure" class="nav-link" data-scroll-target="#top-5-areas-per-measure">2026-11-04 — Top 5 areas per measure</a></li>
+  <li><a href="#pairs-section-pair-polaroid-cards" id="toc-pairs-section-pair-polaroid-cards" class="nav-link" data-scroll-target="#pairs-section-pair-polaroid-cards">2026-11-04 — Pairs section + pair Polaroid cards</a></li>
+  <li><a href="#ideas-for-more-interesting-cards-choosing-k" id="toc-ideas-for-more-interesting-cards-choosing-k" class="nav-link" data-scroll-target="#ideas-for-more-interesting-cards-choosing-k">2026-11-04 — Ideas for more interesting cards + choosing k</a></li>
+  <li><a href="#clusters-k20-k100-business-cores-and-new-card-options" id="toc-clusters-k20-k100-business-cores-and-new-card-options" class="nav-link" data-scroll-target="#clusters-k20-k100-business-cores-and-new-card-options">2026-11-05 — Clusters (k=20, k=100), business cores and new card options</a></li>
+  <li><a href="#distinct-entities-at-k100-urban-screen-final-cards" id="toc-distinct-entities-at-k100-urban-screen-final-cards" class="nav-link" data-scroll-target="#distinct-entities-at-k100-urban-screen-final-cards">2026-11-09 — Distinct entities at k=100, urban screen, final cards</a></li>
+  <li><a href="#final-submission-haiku-cards-most-different-vs-most-similar" id="toc-final-submission-haiku-cards-most-different-vs-most-similar" class="nav-link" data-scroll-target="#final-submission-haiku-cards-most-different-vs-most-similar">2026-11-10 — Final submission: haiku cards, most different vs most similar</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Log</h1>
+<p class="subtitle lead">The exploration log, written along the way</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Claude kept this log in <code>LOG.md</code> throughout the project, adding an entry only when the human asked for one. It’s the most compact record of what was tried, the numbers behind each decision and the dead ends. It’s included here as it stands in the repository (without its own title).</p>
+<section id="contiguity-graph-all-four-nations-queen" class="level2">
+<h2 class="anchored" data-anchor-id="contiguity-graph-all-four-nations-queen">2026-11-04 — Contiguity graph (all four nations, queen)</h2>
+<p><strong>Data (2024):</strong> 46,844 small areas — England 33,755 LSOAs, Scotland 7,392 Data Zones, Northern Ireland 3,780 Super Data Zones, Wales 1,917 LSOAs. EPSG:27700, 64 embedding bands (<code>band{1..64}_mean</code>), no missing values. Embedding vector lengths are 0.75–0.99 rather than 1, because they are averages of unit-length pixel vectors.</p>
+<p><strong>Queen contiguity</strong> (<code>Graph.build_contiguity(lsoas, rook=False)</code>, ~18 s): 272,424 links (counted in both directions), but only <strong>1</strong> England–Scotland pair. Wales–England looked fine (99 links each way). <code>strict=True</code> was worse: zero England–Scotland links, and 326 fewer within Northern Ireland.</p>
+<p><strong>Diagnosis:</strong> polygons within 1 m of each other show ~23 England–Scotland pairs, all at distance 0, which <em>overlap</em> by up to ~70,000 m² (the two nations’ boundaries come from different sources). Contiguity requires polygons to touch without overlapping, so these links are dropped.</p>
+<p><strong>Fix:</strong> <code>Graph.build_fuzzy_contiguity(lsoas)</code>, which links any polygons that intersect (~3 s). It contains every queen link plus the 21 missing England–Scotland pairs (23 in total), and nothing else changed.</p>
+<p><strong>Final graph <code>g</code>:</strong> 272,466 links, median 6 neighbours per area (max 53), <strong>12 areas with no neighbours</strong>, 31 disconnected pieces (mainland GB 42,777; Northern Ireland 3,779; island groups, largest 89). The areas with no neighbours need handling before we compute dissimilarity.</p>
+</section>
+<section id="dropped-areas-with-no-neighbours" class="level2">
+<h2 class="anchored" data-anchor-id="dropped-areas-with-no-neighbours">2026-11-04 — Dropped areas with no neighbours</h2>
+<p>Removed the 12 areas with no neighbours from both <code>g</code> (<code>g.subgraph</code>) and <code>lsoas</code>/<code>emb</code>: E01019077, S01014306, S01014332, S01014346, S01019112, S01019115, S01019116, S01019117, S01019737, S01019747, S01019748, N20001651. Island groups with several areas were kept. Result: 46,832 areas, 272,466 links (unchanged), 19 disconnected pieces (was 31).</p>
+</section>
+<section id="isolates-figure" class="level2">
+<h2 class="anchored" data-anchor-id="isolates-figure">2026-11-04 — Isolates figure</h2>
+<p>Added a figure of the 12 dropped areas (overview + one zoomed panel each) to the notebook, plotting only those areas on contextily tiles to keep it light. CartoDB tiles now require an API key (they return “API key required” placeholders), so we use <code>cx.providers.Esri.WorldGrayCanvas</code> (no key needed). All 12 are offshore islands (Scilly, Inner Hebrides, Orkney, Shetland, Rathlin). Note: <code>nb execute</code> gives each cell 30 s by default; the full notebook needs <code>--timeout 300</code>.</p>
+</section>
+<section id="neighbour-dissimilarity-cosine" class="level2">
+<h2 class="anchored" data-anchor-id="neighbour-dissimilarity-cosine">2026-11-04 — Neighbour dissimilarity (cosine)</h2>
+<p><strong>Measure:</strong> cosine distance between the 64-band embeddings of every pair of neighbours in <code>g</code> (fuzzy contiguity), via <code>sklearn.metrics.pairwise.paired_cosine_distances</code>. Chosen over Euclidean because the area vectors are averages of unit-length vectors: their length partly reflects how mixed the land cover is, and cosine ignores it. Each pair is computed in both directions (272,466 values). Results are stored as weights of <code>g_dist = graph.Graph(Series(dist, index=g.adjacency.index))</code>.</p>
+<p><strong>Parallelism:</strong> the areas are split into 16 groups by focal area (one per core), and each group’s pair distances are computed on a separate thread (joblib <code>backend="threading"</code>), then written back in the original order. Benchmark (scratch): serial ~1 s; separate processes (<code>loky</code>) were <em>slower</em> (1.6–2.2 s, because each worker has to be sent its share of the data); threads were ~4–8× faster. Bigger win: <code>lsoas[band_cols].to_numpy()</code> stores values column by column, so picking out whole rows is slow; <code>np.ascontiguousarray(emb)</code> cut the threaded step from ~0.66 s to ~0.16 s. The full notebook cell still takes ~0.75 s (not investigated). Checked: every pair computed once, matches the serial result, same structure as <code>g</code>.</p>
+<p><strong>Distribution:</strong> median 0.032, IQR 0.016–0.068, mean 0.054, max 0.54. Strongly right-skewed: most neighbours are similar, with a long tail of very different pairs.</p>
+</section>
+<section id="neighbourhood-dissimilarity-mean_dist-vs-lag_dist" class="level2">
+<h2 class="anchored" data-anchor-id="neighbourhood-dissimilarity-mean_dist-vs-lag_dist">2026-11-04 — Neighbourhood dissimilarity: mean_dist vs lag_dist</h2>
+<p>Two per-area scores, with equal weights for every neighbour: <code>mean_dist</code> = mean of the cosine distances to each neighbour (<code>g_dist.aggregate("mean")</code>); <code>lag_dist</code> = cosine distance to the average neighbour embedding (<code>g.transform("r").lag(emb)</code>). <code>lag_dist &lt;= mean_dist</code> for every area. Spearman rank correlation 0.84. Medians 0.046 vs 0.017, max 0.456 vs 0.438. In the scatter plot, areas near the diagonal are outliers (unlike all their surroundings); areas well below it are transitions (their neighbours differ from each other). Also built <code>most_dissimilar</code>: each area’s single most dissimilar neighbour and the distance to it.</p>
+<p><strong>Top area on both measures: <code>E01030745</code></strong>, a pair of reservoir basins just south of Heathrow, surrounded by housing/industry/airport (distances to those neighbours 0.39–0.54); its only similar neighbour (0.16) is the large reservoir to the west. Expect other water/coast cases near the top of the ranking.</p>
+</section>
+<section id="map-template-style-c1" class="level2">
+<h2 class="anchored" data-anchor-id="map-template-style-c1">2026-11-04 — Map template (style “C1”)</h2>
+<p>Iterated in the scratchpad: map of a focal area + its neighbours over satellite imagery, comparing 4 fades (dark, washed, greyscale, navy) × 5 line palettes, then an Imago-palette grid (colours taken from imago.ac.uk CSS: indigo <code>#24226f</code>/<code>#181651</code>, orange <code>#ff8f42</code>, teal <code>#03cea3</code>, lilac <code>#a9afff</code>, grey-lavender <code>#8c91a8</code>, amber <code>#ffaf39</code>). <strong>Chosen: C1</strong> = Esri.WorldImagery; outside the focal area + neighbours washed to white (55%); focal outline orange, neighbours teal, both with a faint dark outline; UK locator inset with no box in Imago indigo with an orange dot.</p>
+<p><strong>Implementation</strong> (notebook, <code>plot_focal(code)</code>): fetch tiles once with <code>cx.bounds2img</code> and reproject to EPSG:27700 with <code>cx.warp_tiles</code>. The wash is applied to the image pixels with a mask from <code>shapely.contains_xy</code> against the merged outline of the focal area and its neighbours (this also allows effects like greyscale, which an overlay polygon can’t do). Attribution uses the provider’s own string.</p>
+<p><strong>UK outline for the inset:</strong> merging all 46k polygons took ~8 min. <code>shapely.coverage_union_all</code> on everything fails (the polygons overlap at national borders), so: merge each nation with coverage union (England 0.4 s, Scotland 3 s, Wales &lt;0.1 s; Northern Ireland isn’t cleanly tiled → falls back to <code>union_all</code> on 200 m-simplified polygons), then join the four nations, drop holes and parts under 20 km², and simplify by 1.5 km. ~26 s total.</p>
+</section>
+<section id="official-imago-palette" class="level2">
+<h2 class="anchored" data-anchor-id="official-imago-palette">2026-11-04 — Official Imago palette</h2>
+<p>Switched <code>plot_focal</code> to the official brand palette (from Imago’s brand guidelines): Navy <code>#24226F</code>, Grey <code>#B8BCD1</code>, Green <code>#03CEA3</code>, Orange <code>#FF8F42</code>, Light Grey <code>#E2E5F3</code>, Blue <code>#1877CF</code>, Dark Grey <code>#8C91A8</code>, White. Outlines: focal Orange, neighbours Green. UK silhouette and all text (title, attribution) now Grey <code>#B8BCD1</code> (replacing indigo/black). Note: Grey is low-contrast on the white figure background and the washed imagery.</p>
+</section>
+<section id="polaroid-card-figtree-imago-grey" class="level2">
+<h2 class="anchored" data-anchor-id="polaroid-card-figtree-imago-grey">2026-11-04 — Polaroid card, Figtree, Imago Grey</h2>
+<p><code>plot_focal(code)</code> now returns a Polaroid-style card (8 × 9.15 in): a square photo (frame made square around the focal area + neighbours) with even 0.45 in white borders on top and sides, and a 1.6 in caption strip below. The strip has the area code (22 pt) and <code>mean_dist · lag_dist · n neighbours</code> (11 pt) in bold <strong>Figtree</strong> (static TTFs from github.com/erikdkennedy/figtree, OFL, saved in <code>fonts/</code>, registered with <code>font_manager.addfont</code>), the Esri credit in regular weight, and the UK silhouette at bottom right. Text and UK silhouette in <strong>Imago Grey <code>#4A4A49</code></strong> (Imago imagery data-service colour); locator dot Orange with a white edge. Faint Light Grey (<code>#E2E5F3</code>) card edge. Export with <code>export_card(fig, name)</code> → <code>figures/&lt;name&gt;.png</code> at 200 dpi, <strong>without</strong> <code>bbox_inches="tight"</code> (it would trim the Polaroid margins). Update: caption strip deepened to 2.0 in (8 × 9.55 in card; bottom ≈ 4.4× the 0.45 in side/top border, close to real Polaroid 600 proportions). The faint Light Grey card edge is replaced by a thin (1.2 pt) Imago Dark Grey <code>#8C91A8</code> outline drawn just inside the canvas (a <code>Rectangle</code> in figure coordinates), so the card stays readable against a white page.</p>
+</section>
+<section id="top-5-areas-per-measure" class="level2">
+<h2 class="anchored" data-anchor-id="top-5-areas-per-measure">2026-11-04 — Top 5 areas per measure</h2>
+<p><code>mean_dist</code> and <code>lag_dist</code> give <strong>the same top 5 in the same order</strong>: E01030745 (0.456/0.438, 9 neighbours), N20003012 (0.381/0.374, 4), W01001286 (0.375/0.360, 3), N20002748 (0.355/0.353, 3), E01026177 (0.315/0.308, 2). Cards exported to <code>figures/&lt;code&gt;.png</code>. Ranks 2–5 are the reverse of the reservoir case: small built-up cores (town/village) inside a few large rural neighbours (farmland, moorland/forestry, coastal peninsula, woodland). True but not very interesting. Observations: (1) the top areas have few neighbours (2–4 vs median 6), so their averages rest on a handful of pairs; (2) with large rural neighbours the focal area is tiny on the card. Decision: <strong>switch from whole neighbourhoods to individual pairs of neighbours.</strong></p>
+</section>
+<section id="pairs-section-pair-polaroid-cards" class="level2">
+<h2 class="anchored" data-anchor-id="pairs-section-pair-polaroid-cards">2026-11-04 — Pairs section + pair Polaroid cards</h2>
+<p>New section “Most dissimilar neighbouring pairs”: one row per pair (<code>area_a &lt; area_b</code>), 136,233 pairs. In the raw top 20, the reservoir <code>E01030745</code> appears 7 times (only 32 distinct areas). <strong>Distinct pairs</strong>: go down the ranking and skip any pair that shares an area with a pair already chosen. Top 5: E01030710–E01030745 (0.538), E01031353–E01031359 (0.513), E01020936–E01034298 (0.503), E01029178–E01035125 (0.484), W01001947–W01002024 (0.481).</p>
+<p><strong>Template refactor:</strong> generic <code>polaroid(layers, title, subtitle, locate)</code> (layers = list of (gdf, colour, lw), which set the frame and stay unwashed; a title item with a colour gets a short bar in that colour before it). <code>plot_focal(code)</code> (unchanged look) and new <code>plot_pair(a, b)</code> (A orange, B green, both 2.4 pt; caption “A ▬ B ▬” + cosine distance) are thin wrappers. Exports: <code>figures/pair_&lt;a&gt;_&lt;b&gt;.png</code>.</p>
+<p>Observations: most top pairs are again a strong contrast between built-up and open land (housing vs reservoir, village vs farmland, coastal town vs farmed headland, industrial/retail vs open water). In one card (E01020936–E01034298) Esri’s imagery has <strong>clouds</strong>; Esri’s imagery is a recent mosaic, not the 2024 imagery the embeddings were built from. In some pairs one area is tiny relative to the other (e.g.&nbsp;E01035125).</p>
+</section>
+<section id="ideas-for-more-interesting-cards-choosing-k" class="level2">
+<h2 class="anchored" data-anchor-id="ideas-for-more-interesting-cards-choosing-k">2026-11-04 — Ideas for more interesting cards + choosing k</h2>
+<p>Pair cards were one-note (built-up vs open land every time). Two ideas: (1) restrict the search to cities (needs boundaries: ONS area→local-authority lookup recommended, or built-up-area polygons); (2) cluster the embeddings, interpret the clusters visually, then search at cluster level (top pair per cluster combination, and “surprising neighbours”, i.e.&nbsp;cluster pairs adjacent less often than chance). Plan: do (2) first, then (1) as a filter on top.</p>
+<p><strong>k scan</strong> (k-means on vectors scaled to length 1, i.e.&nbsp;clustering by cosine similarity; all 46,844 areas; n_init=3; silhouette on a 10k sample, cosine; ~5 s per k):</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>k</th>
+<th>silhouette</th>
+<th>smallest</th>
+<th>largest</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>5</td>
+<td>0.290</td>
+<td>5,491</td>
+<td>13,410</td>
+</tr>
+<tr class="even">
+<td>10</td>
+<td>0.253</td>
+<td>2,768</td>
+<td>9,406</td>
+</tr>
+<tr class="odd">
+<td>15</td>
+<td>0.225</td>
+<td>1,550</td>
+<td>5,492</td>
+</tr>
+<tr class="even">
+<td>20</td>
+<td>0.214</td>
+<td>835</td>
+<td>3,584</td>
+</tr>
+<tr class="odd">
+<td>30</td>
+<td>0.192</td>
+<td>562</td>
+<td>2,582</td>
+</tr>
+<tr class="even">
+<td>40</td>
+<td>0.178</td>
+<td>315</td>
+<td>1,877</td>
+</tr>
+<tr class="odd">
+<td>50</td>
+<td>0.176</td>
+<td>89</td>
+<td>1,724</td>
+</tr>
+<tr class="even">
+<td>100</td>
+<td>0.148</td>
+<td>67</td>
+<td>883</td>
+</tr>
+</tbody>
+</table>
+<p>Silhouette falls steadily with no peak or elbow: the embeddings form continuous gradients, so k is a choice about interpretability, not a statistical answer. Very small clusters appear between k=40 and k=50, probably rare land types (water, airports, quarries). <strong>Decision: k=20</strong> for labelling (190 cluster pairs, all clusters ≥835 areas), and also record each area’s k=50 cluster to keep the rare types. Re-run in the clusters notebook (isolates dropped, 46,832 areas): k=20 silhouette 0.212, smallest 842; k=40 → 282; <strong>k=50 → 195</strong>; k=75 → 72; k=100 → 67. So the sharp drop in smallest-cluster size sits between k=50 and k=75 there (the scratch run put it at 40→50, with 89 at k=50): its position is sensitive to the isolates and the random start. The fine level (k=50 vs k=75) is still open. Development moves to a second notebook, <code>gdsl30dmc_clusters.ipynb</code>; shared tooling moved to <code>gdsl30dmc_tools.py</code>.</p>
+</section>
+<section id="clusters-k20-k100-business-cores-and-new-card-options" class="level2">
+<h2 class="anchored" data-anchor-id="clusters-k20-k100-business-cores-and-new-card-options">2026-11-05 — Clusters (k=20, k=100), business cores and new card options</h2>
+<p><strong>Clustering</strong> (<code>gdsl30dmc_clusters.ipynb</code>): the user chose <strong>k=20 and k=100</strong> (this settles the “fine level still open” note above). k-means on vectors scaled to length 1, n_init=10, clusters numbered by size (0 = largest); labels saved to <code>data/clusters_2024.parquet</code>. k=20 sizes 837–3,628; k=100 sizes 71–869. The two levels nest only loosely (median share of a k=100 cluster inside its main k=20 cluster: 0.61). Contact sheets of the 6 most typical areas (closest to the centre) per k=20 cluster: <code>figures/clusters/c20_XX.png</code>. Draft labels: about 12 of 20 clusters are shades of residential; non-residential types are city centres/dense mixed use (18), arable (8), mixed farmland (10), pastoral (11), woodland/parkland fringe (17), uplands (19). No industrial or water cluster at k=20. Clusters 1, 5 and 12 are mostly Scottish/NI urban areas (England has 72% of all areas): real building styles, an embedding effect, or Data Zone size; flagged as a caveat.</p>
+<p><strong>Business cores.</strong> k=20 cluster 18 is broader than “city centres” (dense inner-city mixed use: flats, offices, institutions). At k=100, City of London and central Manchester areas fall into <strong>cluster 95</strong> (6 of 10 checked) and 88 (4 of 10). Cluster 95 is the high-rise office district (133 areas, median 0.11 km², E 114 / S 17 / N 2, 65% inside k=20 cluster 18); 88 is central mixed use. Focus on 95. - <strong>Pairs</strong> (563 neighbouring pairs include a core area; top 5 distinct, core area in orange): E01035620–E01035617 (0.408, fields + campus, top 0.03% of all 136,233 pairs), E01034486–E01004401 (0.289, reservoir + sheds), S01017417–S01017432 (0.268), S01017414–S01017176 (0.257, riverside park), S01017427–S01017433 (0.254). The two weak Glasgow pairs (3, 5) look alike from above: the core areas match other business cores and the neighbours a tenement cluster (c100 61), so the gap is plausibly offices vs flats; but the neighbours are tiny (0.06–0.10 km²) and at the edge of their cluster. Suggested filter for card-worthy pairs: minimum distance and/or minimum area. - <strong>lag_dist</strong> (top 5 core areas): only E01034486 (0.180, the reservoir block, top 0.29% of areas) is a clear outlier; the rest are top 3–5% (averaging neighbours dilutes contrast; most have 2–3 neighbours, some ~0.02 km²). Cards 3–5 still show towers set into neighbourhoods well. - Cards: <code>figures/core/pair_&lt;i&gt;_&lt;a&gt;_&lt;b&gt;.png</code>, <code>figures/core/lag_&lt;i&gt;_&lt;code&gt;.png</code>; contact sheet <code>figures/clusters/c100_95.png</code>.</p>
+<p><strong>Card options</strong> (<code>gdsl30dmc_tools.py</code>): - <code>pair_distances()</code> and <code>neighbourhood_distances()</code> compute every neighbouring-pair distance and per-area <code>mean_dist</code>/<code>lag_dist</code> once, cached to <code>data/pair_distances_2024.parquet</code> and <code>data/neighbourhood_distances_2024.parquet</code> (match notebook 1). - <code>hist=True</code> (pairs) or <code>hist="lag_dist"</code>/<code>"mean_dist"</code>: slim histogram of the measure over the whole dataset in the caption strip, the card’s value marked with a line and “top x% of N”. The distribution is very skewed (median pair 0.032, max 0.538). - <code>emb=(orange_vector, green_vector)</code>: band-by-band chart of the two embeddings, one column per band (1–64). Styles tried: <code>"paired"</code> (side by side; reads as texture), <code>"overlay"</code> (transparent; overlap turns a muddy teal), <code>"diff"</code> (orange minus green; clean but loses the values), <strong><code>"shared"</code> (default)</strong>: the part both share in light Imago grey and only the excess coloured, so more grey = more alike. For lag cards, green is the average neighbour. The band chart replaces the histogram; with both, the caption strip grows to fit (card 10.1 in tall instead of 9.55).</p>
+</section>
+<section id="distinct-entities-at-k100-urban-screen-final-cards" class="level2">
+<h2 class="anchored" data-anchor-id="distinct-entities-at-k100-urban-screen-final-cards">2026-11-09 — Distinct entities at k=100, urban screen, final cards</h2>
+<p><strong>Entity scan</strong> (clusters notebook, “Distinct entities at k=100”): contact sheets of all 100 fine clusters (4 typical areas each, 9 for candidates). Most are shades of housing, farmland or fringe. Clearly delimited entities: 99 reservoirs/inland water (71 areas), 81 industrial and transport land, 50 industrial and retail parks, 42 golf courses and leafy suburbs, 91 woodland and heathland, 90 harbour/marina waterfront, 87 port and coastal industrial towns, 93 coastal fringe, 95 business cores, 88 central mixed use. Landscapes: 97 Highland mountains, 98 Scottish islands, 94 Scottish uplands, 85 English/Welsh uplands, 92 Welsh valleys. Not found: airports, quarries, campuses, cemeteries, stand-alone docks (probably smaller than a typical area). Labels are a visual reading, not ground truth.</p>
+<p><strong>Top 3 pairs per entity</strong> (both areas ≥ 0.05 km², distinct, entity area first; 27 cards in <code>figures/entities/</code>, shared band chart). Highlights: 99 #1 Staines (#1 of all pairs), 99 #3 Nene Washes (fields in the photo, water cluster in the embedding: likely seasonal flooding of the washland; #22), 50 #2 Macclesfield retail park vs Peak District moors (#102), 88 central London blocks vs royal parks. Caveats: the Cardiff Bay water/business-park pair appears under both 99 and 50; clouds in some Esri images (81 #3, 87 #1–2).</p>
+<p><strong>Card tweaks:</strong> subtitles now name the place and give an exact rank (“#22 of 136,233 pairs”); the histogram label is a rank too (<code>gdsl30dmc_tools.py</code>), replacing “top x%”, which read “top 0.00%” for the #1 pair.</p>
+<p><strong>Urban screen</strong> (both areas 0.05–2 km²): most top pairs are still housing vs urban open space (Hackney Marshes #103, Epping Forest edge, Richmond Park). Exception: <code>E01004721</code>–<code>E01004722</code>, west London (0.317, #419), two dense terraced areas that look alike. Both are <em>typical</em> members of their clusters (c100 68 and 69, whose centres are 0.299 apart), and contact sheets of both clusters show dense terraces. Untested hypothesis: <strong>street orientation</strong> (the grids run at right angles; Sentinel-1 radar returns depend on building orientation). Not used as a showcase card since we can’t explain it; a candidate follow-up.</p>
+<p><strong>Final cards</strong> (<code>figures/final/</code>, 200 dpi, notebook section “Final cards for the submission”): 1 Staines reservoirs (0.538, #1, with histogram), 2 Nene Washes (0.447, #22, band chart), 3 Hackney Marshes (0.375, #103, band chart; replaced Macclesfield to have one contrast entirely within a city). Next: the user wants to replace the charts with a haiku in a typewriter font, and to try a set of most different (Staines) + most similar pair + most similar urban pair.</p>
+</section>
+<section id="final-submission-haiku-cards-most-different-vs-most-similar" class="level2">
+<h2 class="anchored" data-anchor-id="final-submission-haiku-cards-most-different-vs-most-similar">2026-11-10 — Final submission: haiku cards, most different vs most similar</h2>
+<p><strong>Template:</strong> the user found the histogram and band chart too technical for the submission. <code>polaroid</code>/<code>pair_card</code> now take <code>haiku=</code> (three lines, in place of the charts; caption strip grows 0.6 in), set in a typewriter face: <strong>Special Elite</strong> (Apache; default) or Courier Prime (OFL), both from github.com/google/fonts, in <code>fonts/</code> and registered in <code>gdsl30dmc_tools.py</code> (<code>haiku_font=</code> to switch). Courier Prime looked more “office” and crowded the subtitle, so we kept Special Elite. The charts remain available as options.</p>
+<p><strong>New set</strong> (the user’s idea): keep the most different pair and contrast it with the most similar ones. - Most different: <code>E01030745</code>/<code>E01030710</code>, Staines Reservoirs vs Stanwell housing (0.538, #1 of 136,233). - Most similar: <code>N20000689</code>/<code>N20000681</code>, farmland in County Armagh (0.0004, #1 most similar). It is the minimum with or without an area filter. - Most similar urban: smallest distance among pairs with both areas 0.05–1 km² (small areas = urban; the lower bound drops noisy tiny areas): <code>E01003685</code>/<code>E01003730</code>, terraced streets in Ilford (0.0006, #5 most similar overall).</p>
+<p>Haiku (5-7-5): “Still black reservoir — / the next street hangs out washing. / Nothing more apart.” · “Green field, hedge, green field. / A map line says they are two; / the land knows just one.” · “Same bay window, same / chimney pots, same Tuesday bins. / Two codes, one long street.” Also drafted for Nene Washes and Hackney Marshes, which are no longer used.</p>
+<p><strong>Place names</strong>, checked by reverse-geocoding each area’s centre with OpenStreetMap Nominatim: Staines Reservoirs lies inside <code>E01030745</code> (King George VI Reservoir is 426 m away, not in it) and <code>E01030710</code> is Stanwell, Spelthorne, Surrey; the Armagh pair is between Richhill and Hamiltonsbawn, County Armagh; the Ilford pair is Loxford/Seven Kings, LB Redbridge, IG1.</p>
+<p><strong><code>gdsl30dmc_submission.ipynb</code></strong>, a new standalone notebook that runs start to end (~2 min): load areas → fuzzy contiguity → drop 12 isolates → pair distances computed from scratch (<code>cache=None</code>) → pick the three pairs by rule → captions (guarded by <code>expect</code> codes, so a changed pick stops the run) → cards at 200 dpi in <code>figures/submission/</code> (<code>1_most_different</code>, <code>2_most_similar</code>, <code>3_most_similar_urban</code>). The larger area of each pair is drawn in orange.</p>
+<p><strong>Cleanup:</strong> removed <code>figures/final/</code> (Staines, Nene Washes, Hackney Marshes) and the “Final cards” section of the clusters notebook, which now ends with a pointer to the submission notebook.</p>
+<p><strong>Post text:</strong> the LinkedIn text for the three cards (brief, plain, no buzzwords) is the last section of <code>gdsl30dmc_submission.ipynb</code> (“Post text”), kept in a plain-text block so the hashtags don’t render as headings. It covers: the AlphaEarth embeddings via Imago, 46,832 areas and 136,233 neighbouring pairs, the three pairs, and the point that the boundaries we use to count people often split places the satellites see as one. It also says everything was made by prompting Claude Code (day 10 theme: prompting only).</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/darribas\.github\.io\/map_challenge26-prompt_only\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Embeddings: Google Satellite Embedding (AlphaEarth Foundations) for UK small areas, via <a href="https://data.imago.ac.uk/datasets/google-satellite-embedding-v1-small-areas-2017-2024">Imago</a> · Imagery: Esri World Imagery · Made by prompting <a href="https://claude.com/claude-code">Claude Code</a></p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

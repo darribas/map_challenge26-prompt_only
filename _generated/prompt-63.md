@@ -1,0 +1,4 @@
+
+```{=html}
+<div class="note prompt"><div class="note-meta"><a href="transcript.html#p-63">#63</a> · Tue 10 Nov, 00:23</div><div class="note-text">Great now the final move. I’d like to turn all this material in a simple website (quarto?) that lets the user see first and foremost the context and submission, and then dig into the backstory of how we got there. Keep in mind the Polaroid theme for the styling of the site. And, very important, find a way of exploring this full conversation we’ve had and include it there, once as a full transcript but also if you find cool ways to thread it through the rest of the site. Once you’re done here, I’ll take this whole folder and dump it on a github repo where I can turn Pages on as you tell me. Make it all simple and easy to run afterwards on my own (so good documentation). Ahhh, and I’ll not include the data files in the repo, so sound for that</div></div>
+```

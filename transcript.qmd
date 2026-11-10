@@ -1,0 +1,15 @@
+---
+title: "Transcript"
+subtitle: "The whole conversation, from first prompt to this site"
+---
+
+This is the full conversation between the human and [Claude Code](https://claude.com/claude-code) that produced this project, from {{< var first_day >}} to {{< var last_day >}}.
+
+- **Typed notes** are the human's prompts, numbered as on [The prompts](prompts.qmd).
+- **Indented text** marked *Claude* is what Claude replied.
+- **Steps** fold away the {{< var n_tools >}} tool calls Claude made (shell commands, `nb` notebook operations, file edits). Open them to see the commands and their output.
+- **Pinned images** are what Claude looked at (it inspects its own figures before showing them) and what it sent to the human.
+
+What's left out: Claude's internal reasoning, and the instructions and reminders the harness adds behind the scenes. Long tool inputs and outputs are cut short. Partway through, the conversation outgrew Claude's context window and was condensed into a summary; that summary is shown where it happened, since it's all Claude remembered of the first part from then on.
+
+{{< include _generated/transcript.md >}}
